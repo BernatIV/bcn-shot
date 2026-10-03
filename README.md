@@ -42,7 +42,7 @@ See `.env.example`. `.env.local` is never committed.
 
 - **Copy**: `content/copy.ts` (Spanish; set up so other languages can be added later).
 - **Configuration**: `content/site.ts` (`siteConfig`): email, domain, Instagram, hero photo, Oriol's portrait, logo, navigation.
-  - `instagramUrl: null` → no Instagram link is rendered. Set the exact URL once it's confirmed.
+  - `instagramUrl: "https://www.instagram.com/bcnshot/"`. If it ever needs removing, set it back to `null` and no Instagram link is rendered.
   - `heroImage`, `aboutPortrait`, `logo`: already point to real assets. Setting them to `null` shows `TODO_PUBLICACION` markers (or the typographic logo).
 - **Photos**: `content/photos.ts`.
 - **Icons and OG**: `app/icon.png`, `app/apple-icon.png`, `app/opengraph-image.jpg` (Next.js file convention; generated from the original compact logo).
@@ -92,7 +92,7 @@ General steps:
 
 1. Configure the environment variables on the platform (`ALLOW_INDEXING=true` only in production).
 2. Deploy a staging environment (without `ALLOW_INDEXING`) and review it with Oriol.
-3. Resolve every `TODO_PUBLICACION` (search for them in the code) and finish the legal pages.
+3. Resolve every remaining `TODO_PUBLICACION` (search for them in the code): the legal pages now have full copy, but the identity data (Oriol's legal name, NIF, address) and the final hosting/mail providers are still marked pending.
 
 ### Staging environment on Vercel
 
@@ -116,4 +116,4 @@ With no `MAIL_PROVIDER`, the form shows an error with a `mailto:` link (never a 
 
 ## Outstanding before launch
 
-See Phase 0 of `PLAN.md`: Oriol's review of the photos (selection, cover photo, `alt` text, model releases), Instagram URL, final copy, legal data, hosting and mail provider.
+See Phase 0 of `PLAN.md`: Oriol's review of the photos (selection, cover photo, `alt` text, model releases), final copy, legal identity data (name, NIF, address), hosting and mail provider.

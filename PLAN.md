@@ -9,12 +9,12 @@ These block launch, not development (placeholders are used in the meantime).
 
 - [ ] Hosting (must support server routes if the form stays).
 - [ ] Transactional mail provider + domain verification (`From` on `@bcnshot.com`).
-- [ ] Exact Instagram URL.
+- [x] Exact Instagram URL: `https://www.instagram.com/bcnshot/`.
 - [ ] Behavior of the homepage featured photos: open the lightbox or go to `/portfolio`.
 - [ ] Lightbox at the ends: loop or disable.
-- [ ] 8–15 approved photos, featured set and order. *9 photos are in place (6 featured). Pending Oriol's review of the selection, the `alt` text and the model releases.*
+- [ ] 8–15 approved photos, featured set and order. *6 photos are in place, all featured, cover photo also in the grid. Pending Oriol's review of the selection, the `alt` text and the model releases.*
 - [x] Final logo and Oriol's portrait.
-- [ ] Final copy (Sobre mí, contact) and legal data.
+- [ ] Final copy (Sobre mí, contact) and legal identity data (Oriol's legal name, NIF, fiscal address).
 
 ## Phase 1 — Project foundation
 
@@ -40,7 +40,7 @@ These block launch, not development (placeholders are used in the meantime).
 - [x] `/portfolio` — 1/2/3-column grid, `next/image` with dimensions, lazy loading, `focalPoint`, empty state with CTA.
 - [x] Lightbox — accessible dialog, keyboard/touch/mouse, focus and scroll handling, "n / total", reduced motion, `lightboxSrc`.
 - [x] `/sobre-mi` — portrait (or placeholder), short copy, CTA.
-- [x] `/aviso-legal` and `/privacidad` — structure with `TODO_PUBLICACION`.
+- [x] `/aviso-legal` and `/privacidad` — full copy written; identity data and hosting/mail provider still marked `TODO_PUBLICACION`.
 
 ## Phase 4 — Contact
 
@@ -63,7 +63,7 @@ These block launch, not development (placeholders are used in the meantime).
 
 - [x] Complete `README.md`: setup, env, adding/reordering photos, running, deploying, domain/DNS, testing the form.
 - [ ] Staging deployment (noindex) and review with Oriol.
-- [ ] Replace placeholders with approved assets and copy; finish the legal pages.
+- [ ] Replace placeholders with approved assets and copy; fill in the remaining `TODO_PUBLICACION` fields on the legal pages (identity data, hosting/mail provider).
 - [ ] Real end-to-end test of the form reaching `info@bcnshot.com`.
 - [ ] Connect the domain without touching the mail DNS records; verify mail afterwards.
 - [ ] Communicated list of outstanding data.

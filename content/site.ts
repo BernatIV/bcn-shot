@@ -5,8 +5,7 @@ export const siteConfig = {
   url: "https://bcnshot.com",
   email: "info@bcnshot.com",
   locale: "es_ES",
-  /** TODO_PUBLICACION: exact URL confirmed by Marc. While it's `null`, no link is rendered. */
-  instagramUrl: null as string | null,
+  instagramUrl: "https://www.instagram.com/bcnshot/" as string | null,
   heroImage: {
     src: "/images/portfolio/retrato-parque-gafas.webp",
     width: 1366,

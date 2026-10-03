@@ -12,7 +12,7 @@ Portfolio website for **BCN SHOT**, fashion, portrait and editorial photography 
 
 ## Current status
 
-Phases 1–4 implemented (see `PLAN.md`). There are already 9 real photos, a logo, Oriol's portrait, favicon and OG image (originals outside the repo). Still missing: Oriol's review (selection, alt text, permissions), decisions (hosting, mail provider, Instagram) and legal pages. Search for `TODO_PUBLICACION` to find everything still pending in the code.
+Phases 1–4 implemented (see `PLAN.md`). There are already 6 real photos, a logo, Oriol's portrait, favicon, OG image and a confirmed Instagram URL (originals outside the repo). Still missing: Oriol's review (selection, alt text, permissions), decisions (hosting, mail provider) and the identity/hosting data on the legal pages. Search for `TODO_PUBLICACION` to find everything still pending in the code.
 
 ## Next.js 16: read the local docs
 
@@ -66,17 +66,17 @@ app/
   portfolio/page.tsx       grid + lightbox (or empty state)
   sobre-mi/page.tsx
   contacto/page.tsx        + actions.ts (sendContact Server Action)
-  aviso-legal/, privacidad/  TODO_PUBLICACION markers (no invented legal copy)
+  aviso-legal/, privacidad/  full legal copy with TODO_PUBLICACION markers for identity/hosting data
   robots.ts, sitemap.ts, not-found.tsx
   icon.png, apple-icon.png, opengraph-image.jpg (+ .alt.txt)   generated from the original compact logo
 components/
   site-header, site-footer, logo, nav-links (active route), mobile-nav (Radix Dialog)
   photo-grid + lightbox (Radix Dialog), contact-form, cta-section
-  pending-asset (explicit placeholder), legal-pending, icons, ui/button, ui/container
+  pending-asset (explicit placeholder), legal-pending-field (inline marker), icons, ui/button, ui/container
 content/
   site.ts                  siteConfig: email, domain, instagramUrl, heroImage, aboutPortrait, logo, nav, UI decisions
   copy.ts                  every visible string (Spanish)
-  photos.ts                real photos (9, proposed alt text pending review)
+  photos.ts                real photos (6, proposed alt text pending review)
   dev-placeholder-photos.ts  only for `next dev` when photos is empty
   types.ts                 PortfolioPhoto, SiteImage
 lib/
@@ -90,9 +90,9 @@ Provisional decisions (changeable in `content/site.ts`): featured photos on the 
 
 ## Non-negotiable rules
 
-1. **Never invent** photos, testimonials, prices, years of experience, clients, credentials, legal data, or the Instagram URL. If something is missing: an explicit marker (`TODO_PUBLICACION` / visible placeholder) and flag it in the handoff.
+1. **Never invent** photos, testimonials, prices, years of experience, clients, credentials, or legal identity data (legal name, NIF, address). If something is missing: an explicit marker (`TODO_PUBLICACION` / visible placeholder) and flag it in the handoff.
 2. **No stock or generated images** that could pass as Oriol's work. Placeholders must be clearly identifiable.
-3. Instagram: only show it once the URL is confirmed in `siteConfig`; if it's empty, render no link at all.
+3. Instagram: confirmed URL is `https://www.instagram.com/bcnshot/` in `siteConfig.instagramUrl`. If it's ever cleared to `null`, no link is rendered.
 4. **No trackers, pixels or tracking cookies** in V1. No embedded Instagram widgets.
 5. Do not build: a blog, a shop, payments, user accounts, a booking calendar, or password-protected galleries.
 6. Copy: don't claim video/audio services, don't limit the offer to women, don't publish age limits or physical criteria, don't promise availability, timelines or prices.
@@ -140,7 +140,7 @@ export type PortfolioPhoto = {
 - **Lightbox**: accessible dialog, dark background, close/prev/next, arrow keys and Escape, swipe, focus trapped and returned to the thumbnail, scroll locked, "3 / 12" indicator, `prefers-reduced-motion`.
 - **Form** (`/contacto`): name (required, ≤100), email (required, ≤254), type (`Sesión` | `Colaboración TFP` | `Otra`), message (required, 10–2000), consent (required, not pre-checked, links to `/privacidad`). Client + server validation sharing the same schema, errors in Spanish tied to each field, preserves input, button disabled while submitting, honeypot + rate limit, `From` on the own domain and `Reply-To` set to the sender, fallback error with a `mailto:` link.
 - **SEO/a11y/perf**: one H1 per page, unique metadata, canonical, OG, `sitemap.xml`, `robots.txt` (don't index staging environments), WCAG 2.2 AA, no JSON-LD with unverified claims. Mobile Lighthouse target: Perf ≥90, A11y/BP/SEO ≥95.
-- **Legal pages**: `/aviso-legal` and `/privacidad` with `TODO_PUBLICACION` until Oriol approves them; don't add generic invented copy.
+- **Legal pages**: `/aviso-legal` and `/privacidad` have full written copy; identity data (Oriol's legal name, NIF, address) and the hosting/mail provider are marked with inline `TODO_PUBLICACION` fields until confirmed — don't invent them.
 
 ## Conventions
 
@@ -154,7 +154,6 @@ export type PortfolioPhoto = {
 
 - Hosting / deployment platform.
 - Transactional mail provider (the `resend` adapter exists, but it hasn't been chosen).
-- Instagram URL (`siteConfig.instagramUrl`). The splash image shows "@bcnshot", but the exact URL still needs confirming.
 - Featured photos: open the lightbox or link to `/portfolio` (provisional: link).
 - Lightbox: loop or stop at the ends (provisional: loops).
 - Oriol's review: photo selection, cover photo, proposed `alt` text and model releases (`published: true` has been assumed).
