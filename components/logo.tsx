@@ -3,7 +3,7 @@ import Link from "next/link";
 import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/cn";
 
-/** Logo enllaçat a inici. Mentre no hi hagi el fitxer final (siteConfig.logo), tractament tipogràfic provisional. */
+/** Logo linking to the homepage. Until the final file is in place (siteConfig.logo), a provisional typographic treatment is used. */
 export function Logo({ className, onNavigate }: { className?: string; onNavigate?: () => void }) {
   const { logo } = siteConfig;
   return (
@@ -24,7 +24,7 @@ export function Logo({ className, onNavigate }: { className?: string; onNavigate
           preload
         />
       ) : (
-        // Provisional: substituir pel fitxer de logo d'Oriol.
+        // Provisional: replace with Oriol's logo file.
         <span aria-hidden="true" className="font-display text-xl leading-none tracking-tight">
           <span className="font-normal lowercase">bcn</span> <span className="font-extrabold">SHOT</span>
         </span>

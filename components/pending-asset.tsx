@@ -1,8 +1,8 @@
 import { cn } from "@/lib/cn";
 
 /**
- * Marcador explícit d'un actiu pendent (foto, retrat...). No és una imatge: és un bloc etiquetat
- * perquè ningú el confongui amb obra d'Oriol. Substituir abans de publicar (TODO_PUBLICACION).
+ * Explicit marker for a pending asset (photo, portrait...). It isn't an image: it's a labeled
+ * block so nobody mistakes it for Oriol's work. Replace before launch (TODO_PUBLICACION).
  */
 export function PendingAsset({ label, className }: { label: string; className?: string }) {
   return (

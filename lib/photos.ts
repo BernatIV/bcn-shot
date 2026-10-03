@@ -7,7 +7,7 @@ import type { FocalPoint, PortfolioPhoto } from "@/content/types";
 const isDev = process.env.NODE_ENV === "development";
 const isBuild = process.env.NEXT_PHASE === "phase-production-build";
 
-/** Valida les dades del portafolis. Llança error per trencar `next dev`/`next build` si hi ha dades incorrectes. */
+/** Validates the portfolio data. Throws to break `next dev`/`next build` if the data is invalid. */
 export function validatePhotos(list: PortfolioPhoto[], { checkFiles }: { checkFiles: boolean }) {
   const errors: string[] = [];
   const ids = new Set<string>();

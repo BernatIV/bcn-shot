@@ -5,7 +5,7 @@ export const siteConfig = {
   url: "https://bcnshot.com",
   email: "info@bcnshot.com",
   locale: "es_ES",
-  /** TODO_PUBLICACION: URL exacta confirmada per Marc. Mentre sigui `null`, no es mostra cap enllaç. */
+  /** TODO_PUBLICACION: exact URL confirmed by Marc. While it's `null`, no link is rendered. */
   instagramUrl: null as string | null,
   heroImage: {
     src: "/images/portfolio/retrato-parque-gafas.webp",
@@ -21,14 +21,14 @@ export const siteConfig = {
     alt: "Retrato de Oriol sosteniendo una cámara a la altura del pecho y mirando a cámara",
     focalPoint: { x: 50, y: 40 },
   } as SiteImage | null,
-  /** Logo horitzontal retallat a partir del logo original (logo.jpeg). */
+  /** Horizontal logo cropped from the original logo file (logo.jpeg). */
   logo: { src: "/images/site/logo.png", width: 717, height: 160, alt: "" } as SiteImage | null,
   /**
-   * Comportament de les fotos destacades de la portada (decisió pendent de Marc):
-   * "link" → enllacen a /portfolio.
+   * Behavior of the featured photos on the homepage (decision pending from Marc):
+   * "link" → link to /portfolio.
    */
   featuredBehavior: "link" as const,
-  /** Visor: en arribar a l'extrem torna al principi (decisió uniforme, canviable aquí). */
+  /** Lightbox: reaching the end loops back to the start (uniform decision, changeable here). */
   lightboxLoop: true,
   nav: [
     { href: "/portfolio", label: "Portfolio" },

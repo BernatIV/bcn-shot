@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Portada */}
+      {/* Hero */}
       <section aria-labelledby="hero-title">
         <Container className="grid gap-8 pt-8 md:grid-cols-12 md:gap-10 md:pt-12 lg:gap-16">
           <div className="flex flex-col justify-end md:col-span-5 md:pb-4">
@@ -56,7 +56,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Selecció de treballs */}
+      {/* Featured work */}
       <section aria-labelledby="featured-title" className="mt-24 md:mt-36">
         <Container>
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4 md:mb-12">
@@ -95,7 +95,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Proposta */}
+      {/* Pitch */}
       <section aria-labelledby="proposal-title" className="mt-24 md:mt-36">
         <Container className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
@@ -115,7 +115,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Presentació d'Oriol */}
+      {/* Oriol intro */}
       <section aria-labelledby="about-title" className="mt-24 md:mt-36">
         <Container className="grid items-center gap-10 md:grid-cols-12">
           <div className="md:col-span-5 md:col-start-1">

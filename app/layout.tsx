@@ -15,8 +15,8 @@ export const metadata: Metadata = {
   title: { default: copy.meta.defaultTitle, template: `%s | ${siteConfig.name}` },
   description: copy.meta.description,
   applicationName: siteConfig.name,
-  // La canònica es defineix a cada pàgina (lib/metadata.ts) perquè no s'hereti a rutes com el 404.
-  // TODO_PUBLICACION: afegir `images` a openGraph quan hi hagi un actiu aprovat (o app/opengraph-image.jpg).
+  // The canonical URL is set on each page (lib/metadata.ts) so it isn't inherited by routes like 404.
+  // TODO_PUBLICACION: add `images` to openGraph once there's an approved asset (or app/opengraph-image.jpg).
   openGraph: {
     type: "website",
     locale: siteConfig.locale,

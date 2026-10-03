@@ -1,8 +1,8 @@
 import type { PortfolioPhoto } from "./types";
 
 /**
- * Fotos de prova NOMÉS per a desenvolupament local (`next dev`) quan `photos` és buit.
- * Són imatges grises etiquetades com a placeholder; mai es fan servir en producció.
+ * Placeholder photos ONLY for local development (`next dev`) when `photos` is empty.
+ * They're gray images labeled as placeholders; never used in production.
  */
 const portrait = { src: "/images/placeholders/portrait.svg", width: 1200, height: 1600 };
 const landscape = { src: "/images/placeholders/landscape.svg", width: 1600, height: 1067 };

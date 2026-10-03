@@ -1,7 +1,7 @@
 /**
- * Límit de peticions en memòria (finestra fixa per clau).
- * Suficient per a un sol procés. En hosting serverless amb múltiples instàncies
- * el límit és per instància: si cal més, substituir per un magatzem compartit.
+ * In-memory rate limiting (fixed window per key).
+ * Good enough for a single process. On serverless hosting with multiple instances
+ * the limit applies per instance: switch to a shared store if more is needed.
  */
 type Bucket = { count: number; resetAt: number };
 

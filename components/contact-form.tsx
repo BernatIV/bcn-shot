@@ -24,7 +24,7 @@ const inputClass =
 
 export function ContactForm() {
   const [state, formAction, pending] = useActionState(sendContact, initialState);
-  // Errors de validació al client (abans d'enviar). Els del servidor arriben a `state.errors`.
+  // Client-side validation errors (before submit). Server ones arrive in `state.errors`.
   const [clientErrors, setClientErrors] = useState<{ errors: ContactErrors; at: number } | null>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
@@ -67,7 +67,7 @@ export function ContactForm() {
       </p>
     ) : null;
 
-  // `key` força a reinicialitzar els camps no controlats amb els valors retornats pel servidor.
+  // `key` forces the uncontrolled fields to reset with the values returned by the server.
   const v = state.values;
 
   return (
@@ -181,7 +181,7 @@ export function ContactForm() {
         {fieldError("message")}
       </div>
 
-      {/* Camp trampa anti-spam: invisible per a persones i tecnologies d'assistència. */}
+      {/* Anti-spam honeypot field: invisible to people and assistive technologies. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label htmlFor="contact-website">No rellenes este campo</label>
         <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />

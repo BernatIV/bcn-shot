@@ -1,20 +1,20 @@
 # AGENTS.md — BCN SHOT
 
-Guia ràpida per a agents d'IA. Font de veritat: `BCN_SHOT_Tech_Specs.md` (si hi ha conflicte, mana l'spec). Pla de treball: `PLAN.md`.
+Quick guide for AI agents. Source of truth: `BCN_SHOT_Tech_Specs.md` (if there's a conflict, the spec wins). Work plan: `PLAN.md`.
 
-## Què és
+## What this is
 
-Web portafolis de **BCN SHOT**, fotografia de moda, retrat i editorial d'**Oriol** (Barcelona). Objectiu: mostrar l'estil i portar l'usuari a **«Reserva tu sesión»** → `/contacto`.
+Portfolio website for **BCN SHOT**, fashion, portrait and editorial photography by **Oriol** (Barcelona). Goal: showcase the style and drive the user to **"Reserva tu sesión"** ("Book your session") → `/contacto`.
 
-- Domini: `https://bcnshot.com` · Correu: `info@bcnshot.com`
-- Idioma de la web: **castellà** (`lang="es"`). Preparar per a català/anglès més endavant, però **sense** crear rutes d'idioma buides.
-- Persones: Oriol (fotògraf, aprova continguts), Marc (desenvolupament i decisions tècniques).
+- Domain: `https://bcnshot.com` · Email: `info@bcnshot.com`
+- Site language: **Spanish** (`lang="es"`). Set up for Catalan/English later, but **without** creating empty language routes.
+- People: Oriol (photographer, approves content), Marc (development and technical decisions).
 
-## Estat actual
+## Current status
 
-Fases 1–4 implementades (vegeu `PLAN.md`). Ja hi ha 9 fotos reals, logo, retrat d'Oriol, favicon i imatge OG (originals fora del repo). Falten la validació d'Oriol (selecció, alt, permisos), decisions (hosting, proveïdor de correu, Instagram) i pàgines legals. Cerca `TODO_PUBLICACION` per veure tot el que queda pendent al codi.
+Phases 1–4 implemented (see `PLAN.md`). There are already 9 real photos, a logo, Oriol's portrait, favicon and OG image (originals outside the repo). Still missing: Oriol's review (selection, alt text, permissions), decisions (hosting, mail provider, Instagram) and legal pages. Search for `TODO_PUBLICACION` to find everything still pending in the code.
 
-## Next.js 16: llegeix la documentació local
+## Next.js 16: read the local docs
 
 <!-- BEGIN:nextjs-agent-rules -->
 
@@ -26,85 +26,85 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-Diferències ja trobades en aquest projecte:
+Differences already found in this project:
 
-- `next/image`: `priority` està obsolet → fer servir `preload` (o `loading="eager"`/`fetchPriority`). `qualities` per defecte és `[75]`. SVG locals es serveixen sense optimitzar automàticament.
-- `next lint` ja no existeix: `npm run lint` crida `eslint` directament (flat config).
-- `LayoutProps` / `PageProps` són tipus globals generats: `npm run typecheck` executa `next typegen` abans de `tsc`.
-- `headers()`, `cookies()`, `params`, `searchParams` són asíncrons.
-- `middleware` s'anomena ara `proxy`. `next dev` escriu a `.next/dev`.
+- `next/image`: `priority` is deprecated → use `preload` (or `loading="eager"`/`fetchPriority`). `qualities` defaults to `[75]`. Local SVGs are served unoptimized automatically.
+- `next lint` no longer exists: `npm run lint` calls `eslint` directly (flat config).
+- `LayoutProps` / `PageProps` are generated global types: `npm run typecheck` runs `next typegen` before `tsc`.
+- `headers()`, `cookies()`, `params`, `searchParams` are async.
+- `middleware` is now called `proxy`. `next dev` writes to `.next/dev`.
 
-## Stack tècnic (decidit)
+## Tech stack (decided)
 
-- **Next.js 16 (App Router, Turbopack) + React 19 + TypeScript + Tailwind CSS 4** (configuració CSS-first a `app/globals.css`, sense `tailwind.config`).
-- Patró **shadcn/ui** només on aporta accessibilitat: el menú mòbil i el visor fan servir `@radix-ui/react-dialog` directament. El registre de shadcn no és accessible des de la xarxa corporativa (proxy 407), per això els components s'escriuen a mà seguint el mateix patró (`lib/cn.ts` = `clsx` + `tailwind-merge`). La resta de controls són HTML natiu.
-- Contingut en **fitxers TypeScript locals**: sense CMS ni base de dades.
-- Fonts: **Manrope** (títols, `font-display`) i **Inter** (cos, `font-sans`) via `next/font/google` (autoallotjades en el build).
-- **No** activar `output: 'export'` (el formulari és una Server Action).
-- Correu: `lib/mail.ts` amb adaptador `resend` via `fetch` (sense SDK) activat només per variables d'entorn. **Proveïdor pendent de decidir**: no contractar res amb cost sense Oriol i Marc.
-- Hosting: **pendent de decidir**. Entorn de prova a Vercel (Hobby, CLI): https://bcn-shot.vercel.app, amb `noindex`.
-- Sense llibreria de validació: `lib/contact-validation.ts` és a mà i compartit client/servidor.
+- **Next.js 16 (App Router, Turbopack) + React 19 + TypeScript + Tailwind CSS 4** (CSS-first config in `app/globals.css`, no `tailwind.config`).
+- **shadcn/ui** pattern only where it adds accessibility: the mobile menu and the lightbox use `@radix-ui/react-dialog` directly. The shadcn registry isn't reachable from the corporate network (proxy 407), so the components are hand-written following the same pattern (`lib/cn.ts` = `clsx` + `tailwind-merge`). Everything else is plain HTML.
+- Content in **local TypeScript files**: no CMS, no database.
+- Fonts: **Manrope** (headings, `font-display`) and **Inter** (body, `font-sans`) via `next/font/google` (self-hosted at build time).
+- **Do not** enable `output: 'export'` (the form is a Server Action).
+- Mail: `lib/mail.ts` with a `resend` adapter via `fetch` (no SDK), enabled only through environment variables. **Provider still to be decided**: don't sign up for anything with a cost without Oriol and Marc.
+- Hosting: **still to be decided**. Staging environment on Vercel (Hobby, CLI): https://bcn-shot.vercel.app, with `noindex`.
+- No validation library: `lib/contact-validation.ts` is hand-written and shared between client and server.
 
-## Ordres
+## Commands
 
 ```bash
-npm run dev        # desenvolupament (mostra fotos placeholder si content/photos.ts és buit)
-npm run build      # build de producció (valida content/photos.ts)
+npm run dev        # development (shows placeholder photos if content/photos.ts is empty)
+npm run build      # production build (validates content/photos.ts)
 npm run lint
 npm run typecheck
-npm run image -- <original> <id> [--dir=portfolio|site] [--max=2400] [--quality=85]   # exporta WebP a public/images/<dir>/<id>.webp (sharp)
+npm run image -- <original> <id> [--dir=portfolio|site] [--max=2400] [--quality=85]   # exports a WebP to public/images/<dir>/<id>.webp (sharp)
 ```
 
-No hi ha tests automatitzats. Per verificar UI s'ha fet servir `playwright-core` amb Edge (`channel: "msedge"`) des d'una carpeta temporal fora del repo; cal `NO_PROXY=localhost` pel proxy corporatiu.
+There are no automated tests. UI has been verified using `playwright-core` with Edge (`channel: "msedge"`) from a temp folder outside the repo; `NO_PROXY=localhost` is needed because of the corporate proxy.
 
-## Estructura
+## Structure
 
 ```
 app/
-  layout.tsx               html lang="es", fonts, metadades base, skip link, header/footer
-  page.tsx                 portada: hero, destacades, proposta, presentació, CTA final
-  portfolio/page.tsx       graella + visor (o estat buit)
+  layout.tsx               html lang="es", fonts, base metadata, skip link, header/footer
+  page.tsx                 homepage: hero, featured work, pitch, intro, final CTA
+  portfolio/page.tsx       grid + lightbox (or empty state)
   sobre-mi/page.tsx
-  contacto/page.tsx        + actions.ts (Server Action sendContact)
-  aviso-legal/, privacidad/  marcadors TODO_PUBLICACION (no textos legals inventats)
+  contacto/page.tsx        + actions.ts (sendContact Server Action)
+  aviso-legal/, privacidad/  TODO_PUBLICACION markers (no invented legal copy)
   robots.ts, sitemap.ts, not-found.tsx
-  icon.png, apple-icon.png, opengraph-image.jpg (+ .alt.txt)   generats des del logo compacte original
+  icon.png, apple-icon.png, opengraph-image.jpg (+ .alt.txt)   generated from the original compact logo
 components/
-  site-header, site-footer, logo, nav-links (ruta activa), mobile-nav (Radix Dialog)
+  site-header, site-footer, logo, nav-links (active route), mobile-nav (Radix Dialog)
   photo-grid + lightbox (Radix Dialog), contact-form, cta-section
-  pending-asset (placeholder explícit), legal-pending, icons, ui/button, ui/container
+  pending-asset (explicit placeholder), legal-pending, icons, ui/button, ui/container
 content/
-  site.ts                  siteConfig: correu, domini, instagramUrl, heroImage, aboutPortrait, logo, nav, decisions UI
-  copy.ts                  tots els textos visibles (castellà)
-  photos.ts                fotos reals (9, alt proposats pendents de validar)
-  dev-placeholder-photos.ts  només per a `next dev` quan photos és buit
+  site.ts                  siteConfig: email, domain, instagramUrl, heroImage, aboutPortrait, logo, nav, UI decisions
+  copy.ts                  every visible string (Spanish)
+  photos.ts                real photos (9, proposed alt text pending review)
+  dev-placeholder-photos.ts  only for `next dev` when photos is empty
   types.ts                 PortfolioPhoto, SiteImage
 lib/
-  photos.ts                selecció/ordre + validació de dades (server-only, fa servir fs)
+  photos.ts                selection/ordering + data validation (server-only, uses fs)
   contact-validation.ts, mail.ts, rate-limit.ts, metadata.ts (pageMetadata), env.ts, cn.ts, focal-point.ts
-scripts/export-image.mjs   exportació d'originals a WebP (npm run image)
-public/images/             NOMÉS derivats web: portfolio/*.webp, site/logo.png, site/oriol-retrato.webp, placeholders/ (només dev)
+scripts/export-image.mjs   exports originals to WebP (npm run image)
+public/images/             web derivatives ONLY: portfolio/*.webp, site/logo.png, site/oriol-retrato.webp, placeholders/ (dev only)
 ```
 
-Decisions provisionals (canviables a `content/site.ts`): les destacades de portada enllacen a `/portfolio` (`featuredBehavior`), i el visor cicla als extrems (`lightboxLoop: true`).
+Provisional decisions (changeable in `content/site.ts`): featured photos on the homepage link to `/portfolio` (`featuredBehavior`), and the lightbox loops at the ends (`lightboxLoop: true`).
 
-## Regles no negociables
+## Non-negotiable rules
 
-1. **No inventar** fotos, testimonis, preus, anys d'experiència, clients, credencials, dades legals ni l'URL d'Instagram. Si falta alguna cosa: marcador explícit (`TODO_PUBLICACION` / placeholder visible) i anotar-ho al lliurament.
-2. **Cap imatge de stock o generada** que sembli obra d'Oriol. Placeholders clarament identificables.
-3. Instagram: només es mostra quan l'URL estigui confirmada a `siteConfig`; si és buida, no es renderitza cap enllaç.
-4. **Sense trackers, píxels ni cookies de seguiment** a la V1. Res d'incrustacions d'Instagram.
-5. No fer: blog, botiga, pagaments, comptes d'usuari, agenda, galeries amb contrasenya.
-6. Copy: no dir que fa vídeo/so, no limitar a dones, no publicar límits d'edat o criteris físics, no prometre disponibilitat, terminis ni tarifes.
-7. Secrets només en variables d'entorn (`.env.local`, mai commitejat). Proporcionar `.env.example`.
-8. Formulari: mai simular un enviament. Confirmació només si el proveïdor accepta el missatge. No registrar el contingut dels missatges en logs.
-9. No tocar registres DNS de correu existents.
+1. **Never invent** photos, testimonials, prices, years of experience, clients, credentials, legal data, or the Instagram URL. If something is missing: an explicit marker (`TODO_PUBLICACION` / visible placeholder) and flag it in the handoff.
+2. **No stock or generated images** that could pass as Oriol's work. Placeholders must be clearly identifiable.
+3. Instagram: only show it once the URL is confirmed in `siteConfig`; if it's empty, render no link at all.
+4. **No trackers, pixels or tracking cookies** in V1. No embedded Instagram widgets.
+5. Do not build: a blog, a shop, payments, user accounts, a booking calendar, or password-protected galleries.
+6. Copy: don't claim video/audio services, don't limit the offer to women, don't publish age limits or physical criteria, don't promise availability, timelines or prices.
+7. Secrets only in environment variables (`.env.local`, never committed). Provide `.env.example`.
+8. Form: never fake a submission. Confirm success only if the provider accepts the message. Never log message content.
+9. Do not touch existing mail DNS records.
 
-## Sistema de disseny
+## Design system
 
-Tokens (definits a `@theme` d'`app/globals.css`; classes `bg-background`, `text-muted`, `border-border`, `bg-accent`...; també `max-w-site` = 1440 px, `rounded-button`, `font-display`):
+Tokens (defined in `@theme` in `app/globals.css`; classes `bg-background`, `text-muted`, `border-border`, `bg-accent`...; also `max-w-site` = 1440 px, `rounded-button`, `font-display`):
 
-| Token | Valor |
+| Token | Value |
 | --- | --- |
 | `background` | `#F7F6F2` |
 | `surface` | `#FFFFFF` |
@@ -114,9 +114,9 @@ Tokens (definits a `@theme` d'`app/globals.css`; classes `bg-background`, `text-
 | `accent` | `#171717` |
 | `accent-foreground` | `#FFFFFF` |
 
-Estil editorial, sobri i premium: fotos grans, molt aire, text curt, sense degradats, ombres prominents ni animacions vistoses. Cos ≥16 px, línies de 65–75 caràcters, espaiat 4/8 px, marges 20–24 px (mòbil) i 40–64 px (escriptori), contenidor ~1440 px, botons lleugerament arrodonits. Logo real (`public/images/site/logo.png`) configurat a `siteConfig.logo`; si és `null`, `components/logo.tsx` mostra un logo tipogràfic.
+Editorial style, sober and premium: large photos, lots of whitespace, short copy, no gradients, no heavy shadows or flashy animations. Body text ≥16 px, line length 65–75 characters, 4/8 px spacing scale, 20–24 px margins (mobile) and 40–64 px (desktop), ~1440 px container, slightly rounded buttons. Real logo (`public/images/site/logo.png`) set in `siteConfig.logo`; if it's `null`, `components/logo.tsx` falls back to a typographic logo.
 
-## Model de dades del portafolis
+## Portfolio data model
 
 ```ts
 export type PortfolioPhoto = {
@@ -128,34 +128,34 @@ export type PortfolioPhoto = {
 };
 ```
 
-- Portfolio: `published: true`, ordenat per `order` ascendent. Portada: `featured` (4–8 fotos).
-- Validació automàtica a `lib/photos.ts` (en `next dev` i `next build`): `id`/`order` únics, fitxers existents, `width`/`height` > 0, `alt` present. Avís si les destacades no són 4–8.
-- `focalPoint` és l'únic cas en què la graella del portfolio retalla (4:5); sense ell es conserva la relació d'aspecte.
-- No mostrar etiquetes buides ni metadades sobreimpreses a totes les fotos.
+- Portfolio: `published: true`, sorted ascending by `order`. Homepage: `featured` (4–8 photos).
+- Automatic validation in `lib/photos.ts` (in `next dev` and `next build`): unique `id`/`order`, files that exist, `width`/`height` > 0, `alt` present. Warns if the featured count isn't 4–8.
+- `focalPoint` is the only case where the portfolio grid crops (4:5); without it the aspect ratio is preserved.
+- Don't show empty labels or overlay metadata on every photo.
 
-## Requisits clau per funcionalitat
+## Key requirements per feature
 
-- **Navegació**: Portfolio, Sobre mí, Contacto + CTA. Menú mòbil accessible (botó etiquetat, Escape, tanca en navegar, gestió de focus). Ruta activa visible.
-- **Graella**: 1/2/3 columnes, sense deformar, `next/image` amb dimensions, lazy excepte el hero/primer viewport. Estat buit digne amb CTA si no hi ha fotos.
-- **Visor**: diàleg accessible, fons fosc, tancar/anterior/següent, fletxes i Escape, swipe, focus atrapat i retornat a la miniatura, scroll bloquejat, indicador «3 / 12», `prefers-reduced-motion`.
-- **Formulari** (`/contacto`): nom (req, ≤100), email (req, ≤254), tipus (`Sesión` | `Colaboración TFP` | `Otra`), missatge (req, 10–2000), consentiment (req, no premarcat, enllaç a `/privacidad`). Validació client + servidor amb el mateix esquema, errors en castellà associats als camps, conserva dades, botó desactivat en enviar, honeypot + rate limit, `From` del domini i `Reply-To` de l'usuari, error amb `mailto:` alternatiu.
-- **SEO/a11y/perf**: un H1 per pàgina, metadades úniques, canònica, OG, `sitemap.xml`, `robots.txt` (no indexar entorns de prova), WCAG 2.2 AA, sense JSON-LD amb afirmacions no verificades. Objectiu Lighthouse mòbil: Perf ≥90, A11y/BP/SEO ≥95.
-- **Legals**: `/aviso-legal` i `/privacidad` amb `TODO_PUBLICACION` fins que Oriol validi; no posar textos genèrics inventats.
+- **Navigation**: Portfolio, Sobre mí, Contacto + CTA. Accessible mobile menu (labeled button, Escape, closes on navigation, focus management). Active route visible.
+- **Grid**: 1/2/3 columns, no distortion, `next/image` with dimensions, lazy except for the hero/first viewport. Dignified empty state with a CTA when there are no photos.
+- **Lightbox**: accessible dialog, dark background, close/prev/next, arrow keys and Escape, swipe, focus trapped and returned to the thumbnail, scroll locked, "3 / 12" indicator, `prefers-reduced-motion`.
+- **Form** (`/contacto`): name (required, ≤100), email (required, ≤254), type (`Sesión` | `Colaboración TFP` | `Otra`), message (required, 10–2000), consent (required, not pre-checked, links to `/privacidad`). Client + server validation sharing the same schema, errors in Spanish tied to each field, preserves input, button disabled while submitting, honeypot + rate limit, `From` on the own domain and `Reply-To` set to the sender, fallback error with a `mailto:` link.
+- **SEO/a11y/perf**: one H1 per page, unique metadata, canonical, OG, `sitemap.xml`, `robots.txt` (don't index staging environments), WCAG 2.2 AA, no JSON-LD with unverified claims. Mobile Lighthouse target: Perf ≥90, A11y/BP/SEO ≥95.
+- **Legal pages**: `/aviso-legal` and `/privacidad` with `TODO_PUBLICACION` until Oriol approves them; don't add generic invented copy.
 
-## Convencions
+## Conventions
 
-- Codi simple i mantenible; separar dades, components i rutes.
-- Server Components per defecte; `"use client"` només on calgui (menú, visor, formulari).
-- Textos visibles sempre a `content/copy.ts` (no escampats pels components). Noms de fitxers estables i descriptius (kebab-case). Comentaris de codi en català.
-- Metadades de pàgina amb `pageMetadata()` de `lib/metadata.ts` (canònica i OG per pàgina).
-- Actualitzar `README.md`, `PLAN.md` i aquest fitxer quan canviïn decisions o l'estat.
+- Keep the code simple and maintainable; separate data, components and routes.
+- Server Components by default; `"use client"` only where needed (menu, lightbox, form).
+- Visible copy always lives in `content/copy.ts` (never scattered across components). Stable, descriptive file names (kebab-case). Code comments in English.
+- Page metadata via `pageMetadata()` from `lib/metadata.ts` (canonical and OG per page).
+- Update `README.md`, `PLAN.md` and this file whenever decisions or status change.
 
-## Decisions pendents (no assumir-les)
+## Pending decisions (don't assume them)
 
-- Hosting / plataforma de desplegament.
-- Proveïdor de correu transaccional (hi ha l'adaptador `resend`, però no està triat).
-- URL d'Instagram (`siteConfig.instagramUrl`). El splash mostra «@bcnshot», però cal confirmar l'URL exacta.
-- Fotos destacades: obrir visor o enllaçar a `/portfolio` (provisional: enllaç).
-- Visor: ciclar o desactivar als extrems (provisional: cicla).
-- Validació d'Oriol: selecció de fotos, portada, `alt` proposats i permís de publicació de les models (s'ha assumit `published: true`).
-- Textos definitius i dades legals.
+- Hosting / deployment platform.
+- Transactional mail provider (the `resend` adapter exists, but it hasn't been chosen).
+- Instagram URL (`siteConfig.instagramUrl`). The splash image shows "@bcnshot", but the exact URL still needs confirming.
+- Featured photos: open the lightbox or link to `/portfolio` (provisional: link).
+- Lightbox: loop or stop at the ends (provisional: loops).
+- Oriol's review: photo selection, cover photo, proposed `alt` text and model releases (`published: true` has been assumed).
+- Final copy and legal data.

@@ -1,2 +1,2 @@
-/** Només s'indexa quan ALLOW_INDEXING=true (producció real). Entorns de prova: noindex. */
+/** Only indexed when ALLOW_INDEXING=true (real production). Staging environments: noindex. */
 export const allowIndexing = process.env.ALLOW_INDEXING === "true";

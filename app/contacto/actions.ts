@@ -16,7 +16,7 @@ export type ContactState = {
   values: ContactValues;
   errors: ContactErrors;
   message?: string;
-  /** Canvia a cada resposta per poder reaccionar-hi al client (focus, etc.). */
+  /** Changes on every response so the client can react to it (focus, etc.). */
   submittedAt?: number;
 };
 
@@ -27,7 +27,7 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
   const values = valuesFromFormData(formData);
   const submittedAt = Date.now();
 
-  // Camp trampa: les persones no el veuen ni l'omplen.
+  // Honeypot field: real users never see it or fill it in.
   const honeypot = formData.get("website");
   if (typeof honeypot === "string" && honeypot.trim() !== "") {
     return { status: "error", values, errors: {}, message: GENERIC_ERROR, submittedAt };

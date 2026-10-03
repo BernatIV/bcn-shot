@@ -1,19 +1,19 @@
-// Exporta una versió web d'una foto original cap a public/images/<dir>/<id>.webp
-// i mostra l'entrada per enganxar a content/photos.ts.
+// Exports a web-ready version of an original photo to public/images/<dir>/<id>.webp
+// and prints the entry to paste into content/photos.ts.
 //
-// Ús: npm run image -- <original> <id> [--max=2400] [--dir=portfolio] [--quality=85]
-// Exemple: npm run image -- "C:/ruta/originals/foto.jpeg" retrato-parque-01
+// Usage: npm run image -- <original> <id> [--max=2400] [--dir=portfolio] [--quality=85]
+// Example: npm run image -- "C:/path/originals/photo.jpeg" retrato-parque-01
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 
 const [input, id, ...rest] = process.argv.slice(2);
 if (!input || !id) {
-  console.error("Ús: npm run image -- <original> <id> [--max=2400] [--dir=portfolio] [--quality=85]");
+  console.error("Usage: npm run image -- <original> <id> [--max=2400] [--dir=portfolio] [--quality=85]");
   process.exit(1);
 }
 if (!/^[a-z0-9-]+$/.test(id)) {
-  console.error("L'id ha de ser kebab-case: només a-z, 0-9 i guions.");
+  console.error("The id must be kebab-case: only a-z, 0-9 and hyphens.");
   process.exit(1);
 }
 
@@ -27,10 +27,10 @@ fs.mkdirSync(outDir, { recursive: true });
 const outFile = path.join(outDir, `${id}.webp`);
 
 const info = await sharp(input)
-  .rotate() // aplica l'orientació EXIF
+  .rotate() // applies EXIF orientation
   .resize({ width: max, height: max, fit: "inside", withoutEnlargement: true })
   .toColorspace("srgb")
-  .withIccProfile("srgb") // conserva un perfil de color explícit
+  .withIccProfile("srgb") // keeps an explicit color profile
   .webp({ quality })
   .toFile(outFile);
 
@@ -40,7 +40,7 @@ console.log(`{
   src: "/images/${dir}/${id}.webp",
   width: ${info.width},
   height: ${info.height},
-  alt: "TODO: descripció en castellà",
+  alt: "TODO: description in Spanish",
   featured: false,
   published: true,
   order: 0,

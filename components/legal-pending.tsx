@@ -1,8 +1,8 @@
 import { Container } from "@/components/ui/container";
 
 /**
- * Pàgina legal pendent de validació. NO és un text legal: només llista les dades que cal aportar.
- * TODO_PUBLICACION: substituir per text revisat per Oriol (bloqueja el llançament públic).
+ * Legal page pending review. This is NOT legal text: it only lists the data that still needs providing.
+ * TODO_PUBLICACION: replace with copy reviewed by Oriol (blocks public launch).
  */
 export function LegalPending({ title, items }: { title: string; items: string[] }) {
   return (

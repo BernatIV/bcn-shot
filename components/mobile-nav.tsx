@@ -10,19 +10,19 @@ import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/content/site";
 
-/** Menú mòbil: diàleg accessible (focus atrapat, Escape, retorn de focus al botó, scroll bloquejat). */
+/** Mobile menu: accessible dialog (trapped focus, Escape, focus returned to the button, scroll locked). */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // Tanca el menú si la ruta canvia per qualsevol via.
+  // Close the menu whenever the route changes, however it changes.
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
     setLastPath(pathname);
     setOpen(false);
   }
 
-  // Si la pantalla passa a escriptori amb el menú obert, tancar-lo.
+  // Close it if the viewport switches to desktop while the menu is open.
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const onChange = () => mq.matches && setOpen(false);

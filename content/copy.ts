@@ -1,7 +1,7 @@
 /**
- * Textos visibles de la web (castellà).
- * Són PROPOSTES editables de l'spec, no afirmacions factuals: Oriol els ha de validar abans de publicar.
- * Centralitzats aquí per poder afegir català/anglès més endavant.
+ * Visible website copy (Spanish).
+ * These are editable PROPOSALS from the spec, not factual claims: Oriol must approve them before launch.
+ * Centralized here so other languages (Catalan/English) can be added later.
  */
 export const copy = {
   meta: {
@@ -39,7 +39,7 @@ export const copy = {
   about: {
     title: "Sobre mí",
     description: "Oriol, fotógrafo de moda, retrato y editorial en Barcelona.",
-    // TODO_PUBLICACION: ajustar amb la veu d'Oriol.
+    // TODO_PUBLICACION: adjust to match Oriol's voice.
     paragraphs: [
       "Soy Oriol, fotógrafo en Barcelona. Me interesa crear retratos y editoriales con una estética cuidada y una conexión natural con cada persona.",
     ],

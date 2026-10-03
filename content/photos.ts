@@ -1,12 +1,12 @@
 import type { PortfolioPhoto } from "./types";
 
 /**
- * Fotos del portafolis (derivats web a /public/images/portfolio, generats amb `npm run image`).
- * Originals fora del repositori (mai a public/).
+ * Portfolio photos (web derivatives in /public/images/portfolio, generated with `npm run image`).
+ * Originals kept outside the repository (never in public/).
  *
- * - `published: true` només amb permís de publicació de les persones retratades.
- * - `featured: true` per a 4–8 fotos de portada.
- * - `order` ascendent i únic (salts de 10 per poder intercalar).
+ * - `published: true` only with permission to publish from the people photographed.
+ * - `featured: true` for 4–8 homepage photos.
+ * - `order` ascending and unique (gaps of 10 so items can be reordered easily).
  */
 export const photos: PortfolioPhoto[] = [
   {
@@ -15,7 +15,7 @@ export const photos: PortfolioPhoto[] = [
     width: 1366,
     height: 2048,
     alt: "Retrato de una mujer con top negro de cuello alto, aros dorados y gafas de sol sobre la cabeza, sonriendo en un parque soleado",
-    featured: false, // és la foto de portada (siteConfig.heroImage)
+    featured: false, // this is the hero/cover photo (siteConfig.heroImage)
     published: true,
     order: 10,
   },

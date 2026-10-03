@@ -1,9 +1,9 @@
 /**
- * Enviament de correu transaccional. El proveïdor encara NO està decidit (Oriol i Marc).
- * Configuració per variables d'entorn (veure .env.example). Sense configuració, `sendMail`
- * retorna `not_configured` i el formulari mostra l'error amb l'alternativa mailto: (mai simula l'enviament).
+ * Sends transactional mail. The provider is NOT decided yet (Oriol and Marc).
+ * Configured via environment variables (see .env.example). Without configuration, `sendMail`
+ * returns `not_configured` and the form shows the error with the mailto: fallback (never fakes a send).
  *
- * Per afegir un proveïdor: implementar un `MailTransport` i registrar-lo a `getTransport`.
+ * To add a provider: implement a `MailTransport` and register it in `getTransport`.
  */
 
 export type MailMessage = {
@@ -35,7 +35,7 @@ const resendTransport =
         signal: AbortSignal.timeout(10_000),
       });
       if (!res.ok) {
-        // Només l'estat HTTP: mai el contingut del missatge.
+        // HTTP status only: never the message content.
         console.error(`[mail] provider rejected the message (status ${res.status})`);
         return { ok: false, reason: "rejected" };
       }

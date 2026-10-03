@@ -1,13 +1,13 @@
-# BCN SHOT — web
+# BCN SHOT — website
 
-Web portafolis de BCN SHOT (fotografia de moda, retrat i editorial d'Oriol, Barcelona).
-Especificació: `BCN_SHOT_Tech_Specs.md` · Pla i estat: `PLAN.md` · Guia per a agents d'IA: `AGENTS.md`.
+Portfolio website for BCN SHOT (fashion, portrait and editorial photography by Oriol, Barcelona).
+Spec: `BCN_SHOT_Tech_Specs.md` · Plan and status: `PLAN.md` · AI agent guide: `AGENTS.md`.
 
-Stack: Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Radix Dialog (patró shadcn/ui).
+Stack: Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Radix Dialog (shadcn/ui pattern).
 
-## Posada en marxa
+## Getting started
 
-Requisits: Node.js 20.9 o superior (desenvolupat amb Node 24) i npm.
+Requirements: Node.js 20.9 or later (developed with Node 24) and npm.
 
 ```bash
 npm install
@@ -17,103 +17,103 @@ npm run dev                  # http://localhost:3000
 
 Scripts:
 
-| Script | Què fa |
+| Script | What it does |
 | --- | --- |
-| `npm run dev` | Servidor de desenvolupament |
-| `npm run build` | Build de producció (valida també les dades de fotos) |
-| `npm start` | Serveix el build |
+| `npm run dev` | Development server |
+| `npm run build` | Production build (also validates the photo data) |
+| `npm start` | Serves the build |
 | `npm run lint` | ESLint |
-| `npm run typecheck` | Genera tipus de rutes i executa `tsc` |
-| `npm run image -- <original> <id> [--dir=portfolio] [--max=2400] [--quality=85]` | Exporta un original a `public/images/<dir>/<id>.webp` i imprimeix l'entrada per a `content/photos.ts` |
+| `npm run typecheck` | Generates route types and runs `tsc` |
+| `npm run image -- <original> <id> [--dir=portfolio] [--max=2400] [--quality=85]` | Exports an original to `public/images/<dir>/<id>.webp` and prints the entry for `content/photos.ts` |
 
-## Variables d'entorn
+## Environment variables
 
-Vegeu `.env.example`. Mai es commiteja `.env.local`.
+See `.env.example`. `.env.local` is never committed.
 
-| Variable | Ús |
+| Variable | Use |
 | --- | --- |
-| `ALLOW_INDEXING` | `true` només a la producció real. Si no, `noindex` i `robots.txt` amb `Disallow: /`. S'avalua en el build. |
-| `MAIL_PROVIDER` | Proveïdor de correu transaccional. Ara mateix només hi ha l'adaptador `resend` (proveïdor encara per decidir). |
-| `RESEND_API_KEY` | Clau del proveïdor (només servidor). |
-| `CONTACT_FROM_EMAIL` | Remitent del domini autoritzat pel proveïdor, p. ex. `BCN SHOT <web@bcnshot.com>`. |
-| `CONTACT_TO_EMAIL` | Destinatari (per defecte `info@bcnshot.com`). |
+| `ALLOW_INDEXING` | `true` only on the real production site. Otherwise `noindex` and `robots.txt` with `Disallow: /`. Evaluated at build time. |
+| `MAIL_PROVIDER` | Transactional mail provider. Only the `resend` adapter exists right now (provider still to be decided). |
+| `RESEND_API_KEY` | Provider key (server-only). |
+| `CONTACT_FROM_EMAIL` | Sender authorized by the provider's own domain, e.g. `BCN SHOT <web@bcnshot.com>`. |
+| `CONTACT_TO_EMAIL` | Recipient (defaults to `info@bcnshot.com`). |
 
-## Contingut
+## Content
 
-- **Textos**: `content/copy.ts` (castellà; preparat per afegir altres idiomes).
-- **Configuració**: `content/site.ts` (`siteConfig`): correu, domini, Instagram, foto de portada, retrat d'Oriol, logo, navegació.
-  - `instagramUrl: null` → no es mostra cap enllaç d'Instagram. Posar-hi l'URL exacta quan estigui confirmada.
-  - `heroImage`, `aboutPortrait`, `logo`: ja apunten a actius reals. Si es posen a `null` es mostren marcadors `TODO_PUBLICACION` (o el logo tipogràfic).
-- **Fotos**: `content/photos.ts`.
-- **Icones i OG**: `app/icon.png`, `app/apple-icon.png`, `app/opengraph-image.jpg` (convenció de fitxers de Next; generats des del logo compacte original).
+- **Copy**: `content/copy.ts` (Spanish; set up so other languages can be added later).
+- **Configuration**: `content/site.ts` (`siteConfig`): email, domain, Instagram, hero photo, Oriol's portrait, logo, navigation.
+  - `instagramUrl: null` → no Instagram link is rendered. Set the exact URL once it's confirmed.
+  - `heroImage`, `aboutPortrait`, `logo`: already point to real assets. Setting them to `null` shows `TODO_PUBLICACION` markers (or the typographic logo).
+- **Photos**: `content/photos.ts`.
+- **Icons and OG**: `app/icon.png`, `app/apple-icon.png`, `app/opengraph-image.jpg` (Next.js file convention; generated from the original compact logo).
 
-### Afegir o reordenar fotos
+### Adding or reordering photos
 
-1. Guarda l'original **fora del repositori** (`/assets/` i `/originals/` estan al `.gitignore`). Mai a `public/`.
-2. Exporta la versió web: `npm run image -- "C:/ruta/originals/foto.jpeg" editorial-01` (WebP sRGB, 2400 px màxim, qualitat 85) → `public/images/portfolio/editorial-01.webp`. L'script imprimeix l'entrada amb les mides reals.
-3. Afegeix una entrada a `content/photos.ts`:
+1. Keep the original **outside the repository** (`/assets/` and `/originals/` are in `.gitignore`). Never in `public/`.
+2. Export the web version: `npm run image -- "C:/path/originals/photo.jpeg" editorial-01` (sRGB WebP, 2400 px max, quality 85) → `public/images/portfolio/editorial-01.webp`. The script prints the entry with the real dimensions.
+3. Add an entry to `content/photos.ts`:
 
    ```ts
    {
      id: "editorial-01",
      src: "/images/portfolio/editorial-01.webp",
-     lightboxSrc: "/images/portfolio/editorial-01-large.webp", // opcional
-     width: 1600, height: 2000,                                 // mides reals del fitxer src
-     alt: "Descripció útil en castellà",
-     featured: true,   // apareix a la portada (4–8 en total)
-     published: true,  // només amb permís de publicació
-     order: 10,        // ordre ascendent; deixa salts (10, 20...) per reordenar fàcilment
+     lightboxSrc: "/images/portfolio/editorial-01-large.webp", // optional
+     width: 1600, height: 2000,                                 // real dimensions of the src file
+     alt: "Useful description in Spanish",
+     featured: true,   // shown on the homepage (4–8 total)
+     published: true,  // only with permission to publish
+     order: 10,        // ascending order; leave gaps (10, 20...) to reorder easily
    }
    ```
 
-   Opcionals: `title`, `credit`, `shotDate` (`YYYY-MM-DD`, verificat), `location` (només si es pot publicar), `focalPoint` (`{ x, y }` 0–100; activa un retall 4:5 centrat en aquest punt a la graella).
-4. `npm run dev` / `npm run build` validen les dades: ids i `order` únics, mides positives, `alt` present i fitxers existents. Si hi ha errors, el build falla.
+   Optional: `title`, `credit`, `shotDate` (`YYYY-MM-DD`, verified), `location` (only if it can be published), `focalPoint` (`{ x, y }` 0–100; enables a 4:5 crop centered on that point in the grid).
+4. `npm run dev` / `npm run build` validate the data: unique ids and `order`, positive dimensions, `alt` present and files that exist. The build fails if there are errors.
 
-Mentre `photos` sigui buit, `npm run dev` mostra fotos grises de prova (`content/dev-placeholder-photos.ts`) per poder treballar el disseny. **En producció no apareixen mai**: el portfolio mostra l'estat buit amb CTA.
+While `photos` is empty, `npm run dev` shows gray placeholder photos (`content/dev-placeholder-photos.ts`) so the design can still be worked on. **They never appear in production**: the portfolio page shows the empty state with a CTA.
 
-## Formulari de contacte
+## Contact form
 
-- Server Action a `app/contacto/actions.ts`; validació compartida a `lib/contact-validation.ts`; enviament a `lib/mail.ts`.
-- Anti-spam: camp trampa (`website`) i límit de 5 enviaments / 10 min per IP (en memòria; per instància si el hosting és serverless).
-- `From` = `CONTACT_FROM_EMAIL` (domini propi), `Reply-To` = correu de la persona. No es registra el contingut als logs.
-- Sense proveïdor configurat, el formulari mostra un error amb l'enllaç `mailto:` (mai una confirmació falsa).
+- Server Action at `app/contacto/actions.ts`; shared validation in `lib/contact-validation.ts`; sending in `lib/mail.ts`.
+- Anti-spam: honeypot field (`website`) and a limit of 5 submissions / 10 min per IP (in memory; per instance if hosting is serverless).
+- `From` = `CONTACT_FROM_EMAIL` (own domain), `Reply-To` = the sender's email. Message content is never logged.
+- With no provider configured, the form shows an error with a `mailto:` link (never a fake confirmation).
 
-### Provar el formulari
+### Testing the form
 
-1. Configura el proveïdor a `.env.local` i verifica el domini `bcnshot.com` al proveïdor (registres SPF/DKIM que indiqui).
-2. `npm run dev`, obre `/contacto`, envia un missatge real i comprova que arriba a `info@bcnshot.com` i que en respondre s'adreça a la persona.
-3. Prova també errors: camps buits, missatge curt, sense consentiment, i una clau invàlida (ha de mostrar l'error amb `mailto:`).
+1. Configure the provider in `.env.local` and verify the `bcnshot.com` domain with the provider (whatever SPF/DKIM records it requires).
+2. `npm run dev`, open `/contacto`, send a real message and check that it arrives at `info@bcnshot.com` and that replying reaches the sender.
+3. Also test error paths: empty fields, a message that's too short, no consent, and an invalid API key (should show the error with `mailto:`).
 
-## Publicació
+## Deployment
 
-El hosting encara **no està decidit**. Requisit: ha de suportar Next.js amb funcions de servidor (Server Actions). **No** activar `output: "export"`: el formulari deixaria de funcionar i `next/image` necessitaria un loader extern.
+Hosting is still **undecided**. Requirement: it must support Next.js with server functions (Server Actions). **Do not** enable `output: "export"`: the form would stop working and `next/image` would need an external loader.
 
-Passos generals:
+General steps:
 
-1. Configurar les variables d'entorn a la plataforma (`ALLOW_INDEXING=true` només a producció).
-2. Desplegar un entorn de prova (sense `ALLOW_INDEXING`) i revisar-lo amb Oriol.
-3. Completar tots els `TODO_PUBLICACION` (cerca'ls al codi) i les pàgines legals.
+1. Configure the environment variables on the platform (`ALLOW_INDEXING=true` only in production).
+2. Deploy a staging environment (without `ALLOW_INDEXING`) and review it with Oriol.
+3. Resolve every `TODO_PUBLICACION` (search for them in the code) and finish the legal pages.
 
-### Entorn de prova a Vercel
+### Staging environment on Vercel
 
-Vercel detecta Next.js automàticament: no cal `vercel.json`. El pla Hobby és gratuït però només per a ús no comercial: serveix per a la prova. La producció requereix decidir el pla o hosting amb Oriol i Marc.
+Vercel detects Next.js automatically: no `vercel.json` needed. The Hobby plan is free but only for non-commercial use: good enough for staging. Production requires deciding on a plan or hosting with Oriol and Marc.
 
-- **Opció A — GitHub (recomanada, amb previews per cada push):**
-  1. Pujar el repositori a GitHub (privat).
-  2. A vercel.com → *Add New… → Project* → importar el repositori. No canviar la configuració de build.
-  3. **No** definir `ALLOW_INDEXING`: l'entorn queda amb `noindex` i `robots.txt` amb `Disallow: /`.
-- **Opció B — CLI, sense GitHub:** `npx vercel login` i després `npx vercel` des de l'arrel del repo (crea un desplegament de *preview*).
+- **Option A — GitHub (recommended, with a preview per push):**
+  1. Push the repository to GitHub (private).
+  2. On vercel.com → *Add New… → Project* → import the repository. Don't change the build settings.
+  3. **Don't** set `ALLOW_INDEXING`: the environment stays `noindex` with `robots.txt` set to `Disallow: /`.
+- **Option B — CLI, no GitHub:** `npx vercel login`, then `npx vercel` from the repo root (creates a *preview* deployment).
 
-Estat actual: projecte `marc-oriol/bcn-shot` creat amb la CLI. URL de prova: https://bcn-shot.vercel.app (sense `ALLOW_INDEXING`, per tant `noindex`). Per actualitzar-la: `npx vercel --prod` (o `npx vercel` per a una preview protegida amb login de Vercel). Darrere del proxy corporatiu, la CLI no arriba a `api.vercel.com` (407).
+Current status: project `marc-oriol/bcn-shot` created via the CLI. Staging URL: https://bcn-shot.vercel.app (no `ALLOW_INDEXING`, so `noindex`). To update it: `npx vercel --prod` (or `npx vercel` for a preview protected by Vercel login). Behind the corporate proxy, the CLI can't reach `api.vercel.com` (407).
 
-Sense `MAIL_PROVIDER`, el formulari mostra un error amb l'enllaç `mailto:` (mai un èxit fals). Per provar l'enviament real cal configurar el proveïdor i les variables de `.env.example` a *Settings → Environment Variables*.
+With no `MAIL_PROVIDER`, the form shows an error with a `mailto:` link (never a fake success). To test real sending, configure the provider and the variables from `.env.example` in *Settings → Environment Variables*.
 
-### Domini i DNS
+### Domain and DNS
 
-- Afegir `bcnshot.com` (i `www`) a la plataforma i crear **només** els registres web que demani (A/AAAA/CNAME).
-- **No tocar** els registres de correu existents (MX, SPF, DKIM, DMARC) de `info@bcnshot.com`. Si el proveïdor transaccional demana registres nous, afegir-los sense substituir els actuals (un sol registre SPF: combinar-hi els `include`).
-- Després del canvi, verificar que el correu d'`info@bcnshot.com` continua rebent i enviant.
+- Add `bcnshot.com` (and `www`) to the platform and create **only** the web records it asks for (A/AAAA/CNAME).
+- **Do not touch** the existing mail records (MX, SPF, DKIM, DMARC) for `info@bcnshot.com`. If the transactional provider requires new records, add them without replacing the existing ones (a single SPF record combining the `include`s).
+- After the change, verify that `info@bcnshot.com` still sends and receives mail.
 
-## Pendents abans de publicar
+## Outstanding before launch
 
-Vegeu la Fase 0 de `PLAN.md`: validació d'Oriol de les fotos (selecció, portada, `alt`, permís de les models), URL d'Instagram, textos definitius, dades legals, hosting i proveïdor de correu.
+See Phase 0 of `PLAN.md`: Oriol's review of the photos (selection, cover photo, `alt` text, model releases), Instagram URL, final copy, legal data, hosting and mail provider.

@@ -36,7 +36,7 @@ export function PhotoGrid({ photos, loop }: { photos: PortfolioPhoto[]; loop: bo
                   loading={i < 2 ? "eager" : "lazy"}
                   className={cn(
                     "h-auto w-full transition-opacity duration-300 group-hover:opacity-90",
-                    // Retall intencional només quan hi ha focalPoint; si no, relació d'aspecte original.
+                    // Intentional crop only when focalPoint is set; otherwise keep the original aspect ratio.
                     photo.focalPoint && "aspect-[4/5] object-cover",
                   )}
                   style={

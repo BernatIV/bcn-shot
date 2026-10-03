@@ -1,4 +1,4 @@
-/** Validació compartida entre client i servidor per al formulari de contacte. */
+/** Validation shared between client and server for the contact form. */
 
 export const INQUIRY_TYPES = ["Sesión", "Colaboración TFP", "Otra"] as const;
 export type InquiryType = (typeof INQUIRY_TYPES)[number];
@@ -38,7 +38,7 @@ export const emptyContactValues: ContactValues = {
   consent: false,
 };
 
-// Simple i permissiu: la verificació real és que la resposta arribi.
+// Simple and permissive: the real check is whether the reply actually arrives.
 const EMAIL_RE = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[^\s@<>()[\]\\,;:"]{2,}$/;
 const CONTROL_CHARS_RE = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
 
@@ -56,7 +56,7 @@ export function valuesFromFormData(formData: FormData): ContactValues {
   };
 }
 
-/** Longitud en caràcters (no unitats UTF-16), coherent amb el que veu l'usuari. */
+/** Length in characters (not UTF-16 units), consistent with what the user sees. */
 function charLength(s: string) {
   return Array.from(s).length;
 }
