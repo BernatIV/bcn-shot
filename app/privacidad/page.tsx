@@ -1,4 +1,3 @@
-import { PendingField } from "@/components/legal-pending-field";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
@@ -15,122 +14,108 @@ export default function PrivacyPage() {
       <div className="max-w-prose">
         <h1 className="text-4xl font-semibold md:text-5xl">Política de privacidad</h1>
 
-        <div
-          data-todo="TODO_PUBLICACION"
-          className="mt-8 border border-dashed border-muted/60 p-4 text-sm text-muted"
-        >
-          Este texto está pendiente de revisión final por Oriol. Los datos marcados como{" "}
-          <span className="font-mono text-xs uppercase">TODO_PUBLICACION</span> aún no están
-          confirmados.
-        </div>
+        <p className="mt-8 text-muted">
+          En BCN SHOT tratamos los datos personales que nos facilitas para responder a tus
+          consultas y gestionar las sesiones fotográficas o colaboraciones que nos propongas.
+        </p>
 
         <div className="mt-8 space-y-8 text-muted">
           <section>
-            <h2 className="text-foreground text-xl font-semibold">1. Responsable del tratamiento</h2>
+            <h2 className="text-foreground text-xl font-semibold">1. Responsable</h2>
             <ul className="mt-4 list-disc space-y-2 pl-5">
               <li>
-                Responsable: <PendingField>nombre y apellidos completos de Oriol</PendingField>
+                Responsable: <span className="text-foreground">Oriol Mañé Duatis</span>
               </li>
               <li>
-                NIF/DNI: <PendingField>NIF del responsable</PendingField>
+                NIF: <span className="text-foreground">47909332X</span>
               </li>
               <li>
-                Domicilio: <PendingField>domicilio fiscal o profesional</PendingField>
+                Localidad: <span className="text-foreground">Barcelona (España)</span>
               </li>
               <li>
-                Correo electrónico de contacto:{" "}
+                Correo electrónico:{" "}
                 <span className="text-foreground">{siteConfig.email}</span>
+              </li>
+              <li>
+                Sitio web: <span className="text-foreground">{siteConfig.url}</span>
               </li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-foreground text-xl font-semibold">
-              2. Qué datos recogemos y con qué finalidad
-            </h2>
+            <h2 className="text-foreground text-xl font-semibold">2. Qué datos tratamos y para qué</h2>
             <p className="mt-3">
-              A través del formulario de la página <span className="text-foreground">/contacto</span>{" "}
-              recogemos los siguientes datos: nombre, correo electrónico, tipo de consulta
-              (sesión, colaboración TFP u otra) y el mensaje que escribes.
+              Si utilizas el formulario de contacto, tratamos tu nombre, dirección de correo
+              electrónico, tipo de consulta y el contenido del mensaje. Si nos escribes
+              directamente por correo, tratamos los datos que incluyas en tu comunicación.
             </p>
             <p className="mt-3">
-              La finalidad es responder a tu consulta y, en su caso, gestionar la organización de
-              una sesión fotográfica o una colaboración. No usamos estos datos para ninguna otra
-              finalidad ni para enviar comunicaciones comerciales no solicitadas.
+              Utilizamos estos datos para responderte y, en su caso, preparar una sesión
+              fotográfica, un presupuesto o una colaboración. No los utilizamos para enviarte
+              publicidad no solicitada.
             </p>
           </section>
 
           <section>
-            <h2 className="text-foreground text-xl font-semibold">3. Legitimación</h2>
+            <h2 className="text-foreground text-xl font-semibold">3. Base jurídica</h2>
             <p className="mt-3">
-              La base legal para el tratamiento es tu consentimiento expreso, otorgado al marcar
-              la casilla de aceptación de esta política antes de enviar el formulario de contacto.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-semibold">4. Conservación de los datos</h2>
-            <p className="mt-3">
-              Tus datos se conservan durante el tiempo necesario para atender tu consulta y,
-              posteriormente, durante los plazos legalmente exigibles para atender eventuales
-              responsabilidades.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-foreground text-xl font-semibold">5. Destinatarios</h2>
-            <p className="mt-3">
-              El contenido del formulario se envía por correo electrónico al responsable a través
-              de un proveedor de envío de correo transaccional:{" "}
-              <PendingField>proveedor de correo definitivo</PendingField>. El Sitio también está
-              alojado por un proveedor de hosting:{" "}
-              <PendingField>proveedor de hosting definitivo</PendingField>.
-            </p>
-            <p className="mt-3">
-              No se ceden datos a terceros, salvo obligación legal.
+              Cuando solicitas información sobre una sesión o presupuesto, el tratamiento es
+              necesario para atender tu petición y realizar gestiones previas a una posible
+              contratación. Para otras consultas o propuestas de colaboración, tratamos los datos
+              que nos facilitas para poder responderte.
             </p>
           </section>
 
           <section>
             <h2 className="text-foreground text-xl font-semibold">
-              6. Derechos de las personas usuarias
+              4. Cuánto tiempo conservamos los datos
             </h2>
             <p className="mt-3">
-              Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición,
-              limitación del tratamiento y portabilidad escribiendo a{" "}
-              <span className="text-foreground">{siteConfig.email}</span> e indicando el derecho
-              que deseas ejercer.
-            </p>
-            <p className="mt-3">
-              Si consideras que tu solicitud no ha sido atendida correctamente, puedes presentar
-              una reclamación ante la Agencia Española de Protección de Datos (
-              <span className="text-foreground">www.aepd.es</span>).
+              Conservamos las consultas durante el tiempo necesario para responderlas y gestionar
+              la relación que pueda surgir. Si se contrata un servicio, conservaremos los datos
+              que deban mantenerse durante los plazos exigidos por la normativa aplicable.
+              Después, los suprimiremos cuando ya no sean necesarios.
             </p>
           </section>
 
           <section>
-            <h2 className="text-foreground text-xl font-semibold">7. Seguridad</h2>
+            <h2 className="text-foreground text-xl font-semibold">
+              5. Proveedores y transferencias internacionales
+            </h2>
             <p className="mt-3">
-              Aplicamos medidas técnicas y organizativas razonables para proteger tus datos. El
-              contenido de los mensajes enviados a través del formulario no se registra en los
-              logs del servidor.
+              La web está alojada en Vercel. Los mensajes enviados mediante el formulario se
+              procesan a través de Resend para hacerlos llegar por correo electrónico al
+              responsable.
+            </p>
+            <p className="mt-3">
+              Estos proveedores pueden acceder a los datos necesarios para prestar sus servicios.
+              Resend almacena datos, incluido el contenido de los mensajes, en Estados Unidos.
+              Vercel también contempla el tratamiento de datos fuera del Espacio Económico
+              Europeo. Estos tratamientos deben realizarse con las garantías exigidas por la
+              normativa de protección de datos. No vendemos tus datos personales a terceros.
             </p>
           </section>
 
           <section>
-            <h2 className="text-foreground text-xl font-semibold">8. Cookies</h2>
+            <h2 className="text-foreground text-xl font-semibold">6. Tus derechos</h2>
             <p className="mt-3">
-              Este sitio no utiliza cookies de seguimiento ni de publicidad. Únicamente podrían
-              usarse cookies técnicas estrictamente necesarias para el funcionamiento de la web, si
-              las hubiera.
+              Puedes solicitar el acceso a tus datos, su rectificación o supresión, así como
+              ejercer los demás derechos reconocidos por la normativa de protección de datos,
+              escribiendo a <span className="text-foreground">{siteConfig.email}</span>.
+            </p>
+            <p className="mt-3">
+              También puedes presentar una reclamación ante la Agencia Española de Protección de
+              Datos si consideras que el tratamiento de tus datos no es adecuado.
             </p>
           </section>
 
           <section>
-            <h2 className="text-foreground text-xl font-semibold">9. Cambios en esta política</h2>
+            <h2 className="text-foreground text-xl font-semibold">7. Cookies</h2>
             <p className="mt-3">
-              Esta política puede actualizarse para adaptarse a cambios normativos o del propio
-              Sitio. Cualquier cambio se publicará en esta misma página.
+              Si la web utiliza únicamente cookies técnicas estrictamente necesarias, no se
+              requiere tu consentimiento para instalarlas. Esta información se actualizará si se
+              incorporan herramientas de análisis, publicidad u otras tecnologías que lo
+              requieran.
             </p>
           </section>
         </div>
