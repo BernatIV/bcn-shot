@@ -43,12 +43,6 @@ export default function AboutPage() {
             </p>
           ))}
         </div>
-        <blockquote className="border-accent mt-8 max-w-prose border-l-2 pl-5 text-xl italic">
-          <p>&ldquo;{copy.about.quote.text}&rdquo;</p>
-          <footer className="text-muted mt-2 text-base not-italic">
-            — {copy.about.quote.author}
-          </footer>
-        </blockquote>
         <ButtonLink href={siteConfig.cta.href} className="mt-10">
           {siteConfig.cta.label}
         </ButtonLink>

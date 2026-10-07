@@ -44,10 +44,6 @@ export const copy = {
       "A los 21 años pasé seis meses en la India. De allí llegué a Australia con menos de 50 euros, sin conocer a nadie. Viví mis primeros tres meses en una tienda de campaña y, con el tiempo, encontré mi camino. Aquel fue el comienzo de un viaje que duró varios años.",
       "Viajar y empezar de cero cambiaron mi manera de ver la vida y me enseñaron a valorar mucho más lo cotidiano. Esa mirada influye en mi fotografía: cuido la estética, pero también presto atención a los gestos y momentos espontáneos.",
     ],
-    quote: {
-      text: "La excelencia de una foto está en captar la naturalidad.",
-      author: "Oriol Mañé Duatis",
-    },
   },
   portfolio: {
     title: "Portfolio",
