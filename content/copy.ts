@@ -38,11 +38,16 @@ export const copy = {
   },
   about: {
     title: "Sobre mí",
-    description: "Oriol, fotógrafo de moda, retrato y editorial en Barcelona.",
-    // TODO_PUBLICACION: adjust to match Oriol's voice.
+    description: "Oriol Mañé Duatis, fotógrafo y pianista en Barcelona.",
     paragraphs: [
-      "Soy Oriol, fotógrafo en Barcelona. Me interesa crear retratos y editoriales con una estética cuidada y una conexión natural con cada persona.",
+      "Soy Oriol Mañé Duatis, fotógrafo y pianista en Barcelona. Me interesan la moda, el retrato y las imágenes que muestran algo auténtico de cada persona.",
+      "A los 21 años pasé seis meses en la India. De allí llegué a Australia con menos de 50 euros, sin conocer a nadie. Viví mis primeros tres meses en una tienda de campaña y, con el tiempo, encontré mi camino. Aquel fue el comienzo de un viaje que duró varios años.",
+      "Viajar y empezar de cero cambiaron mi manera de ver la vida y me enseñaron a valorar mucho más lo cotidiano. Esa mirada influye en mi fotografía: cuido la estética, pero también presto atención a los gestos y momentos espontáneos.",
     ],
+    quote: {
+      text: "La excelencia de una foto está en captar la naturalidad.",
+      author: "Oriol Mañé Duatis",
+    },
   },
   portfolio: {
     title: "Portfolio",
