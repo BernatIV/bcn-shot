@@ -12,7 +12,7 @@ Portfolio website for **BCN SHOT**, fashion, portrait and editorial photography 
 
 ## Current status
 
-Phases 1–4 implemented (see `PLAN.md`), plus trilingual support (es/ca/en). There are already 6 real photos, a logo, Oriol's portrait, favicon, OG image and a confirmed Instagram URL (originals outside the repo). Still missing: Oriol's review (selection, alt text, permissions, the Catalan/English translations and the legal texts) and decisions (hosting, mail provider). Search for `TODO_PUBLICACION` to find everything still pending in the code.
+Phases 1–4 implemented (see `PLAN.md`), plus trilingual support (es/ca/en). There are already 6 real photos, a logo, Oriol's portrait, favicon, OG image and a confirmed Instagram URL (originals outside the repo). Still missing: Oriol's review (selection, alt text, permissions, the Catalan/English translations and the legal texts) and the Resend setup (account, domain verification, env vars on Vercel, real test send). Hosting (Vercel) and mail provider (Resend) are decided. Search for `TODO_PUBLICACION` to find everything still pending in the code.
 
 ## Next.js 16: read the local docs
 
@@ -43,8 +43,8 @@ Differences already found in this project:
 - Content in **local TypeScript files**: no CMS, no database.
 - Fonts: **Manrope** (headings, `font-display`) and **Inter** (body, `font-sans`) via `next/font/google` (self-hosted at build time).
 - **Do not** enable `output: 'export'` (the form is a Server Action).
-- Mail: `lib/mail.ts` with a `resend` adapter via `fetch` (no SDK), enabled only through environment variables. **Provider still to be decided**: don't sign up for anything with a cost without Oriol and Marc.
-- Hosting: **still to be decided**. Staging environment on Vercel (Hobby, CLI): https://bcn-shot.vercel.app, with `noindex`.
+- Mail: **Resend** (decided). `lib/mail.ts` has a `resend` adapter via `fetch` (no SDK), enabled only through environment variables (`MAIL_PROVIDER=resend`, `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`). Free plan; verify the domain on a **subdomain** (e.g. `send.bcnshot.com`) so the existing mail DNS records stay untouched. Still pending: account setup, domain verification and a real test send. Don't move to a paid plan without Oriol and Marc.
+- Hosting: **Vercel** (decided). Staging environment (Hobby, CLI): https://bcn-shot.vercel.app, with `noindex`. Vercel's Hobby plan is for non-commercial use only, so Oriol and Marc still need to agree on the production plan.
 - No validation library: `lib/contact-validation.ts` is hand-written and shared between client and server.
 
 ## Commands
@@ -113,7 +113,7 @@ Provisional decisions (changeable in `content/site.ts`): featured photos on the 
 1. **Never invent** photos, testimonials, prices, years of experience, clients, credentials, or legal identity data (legal name, NIF, address). If something is missing: an explicit marker (`TODO_PUBLICACION` / visible placeholder) and flag it in the handoff.
 2. **No stock or generated images** that could pass as Oriol's work. Placeholders must be clearly identifiable.
 3. Instagram: confirmed URL is `https://www.instagram.com/bcnshot/` in `siteConfig.instagramUrl`. If it's ever cleared to `null`, no link is rendered.
-4. **No trackers, pixels or tracking cookies** in V1. No embedded Instagram widgets.
+4. **No trackers, pixels or tracking cookies** in V1. No embedded Instagram widgets. Exception: **Vercel Analytics** (`@vercel/analytics`, mounted in `components/site-shell.tsx`) is cookieless and only produces aggregated, anonymous visit statistics; it's documented in `/privacidad` ("Cookies" section, every locale).
 5. Do not build: a blog, a shop, payments, user accounts, a booking calendar, or password-protected galleries.
 6. Copy: don't claim video/audio services, don't limit the offer to women, don't publish age limits or physical criteria, don't promise availability, timelines or prices.
 7. Secrets only in environment variables (`.env.local`, never committed). Provide `.env.example`.
@@ -172,8 +172,7 @@ export type PortfolioPhoto = {
 
 ## Pending decisions (don't assume them)
 
-- Hosting / deployment platform.
-- Transactional mail provider (the `resend` adapter exists, but it hasn't been chosen).
+- Vercel plan for production (Hobby is non-commercial only).
 - Featured photos: open the lightbox or link to `/portfolio` (provisional: link).
 - Lightbox: loop or stop at the ends (provisional: loops).
 - Oriol's review: photo selection, cover photo, proposed `alt` text and model releases (`published: true` has been assumed).

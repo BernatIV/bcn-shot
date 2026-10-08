@@ -1,5 +1,5 @@
 /**
- * Sends transactional mail. The provider is NOT decided yet (Oriol and Marc).
+ * Sends transactional mail. Provider: Resend (decided).
  * Configured via environment variables (see .env.example). Without configuration, `sendMail`
  * returns `not_configured` and the form shows the error with the mailto: fallback (never fakes a send).
  *

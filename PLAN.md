@@ -7,8 +7,9 @@ Mark each task's status (`[ ]` pending, `[x]` done) as work progresses.
 
 These block launch, not development (placeholders are used in the meantime).
 
-- [ ] Hosting (must support server routes if the form stays).
-- [ ] Transactional mail provider + domain verification (`From` on `@bcnshot.com`).
+- [x] Hosting: **Vercel**. *Pending: choose the production plan (Hobby is non-commercial only).*
+- [x] Transactional mail provider: **Resend** (free plan).
+- [ ] Resend account + domain verification on a subdomain (e.g. `send.bcnshot.com`, `From` on the own domain) + env vars on Vercel.
 - [x] Exact Instagram URL: `https://www.instagram.com/bcnshot/`.
 - [ ] Behavior of the homepage featured photos: open the lightbox or go to `/portfolio`.
 - [ ] Lightbox at the ends: loop or disable.
@@ -47,9 +48,9 @@ These block launch, not development (placeholders are used in the meantime).
 - [x] Shared validation schema (`lib/`) with the spec's limits and localized messages.
 - [x] Client form: visible labels, per-field errors + summary, preserves input, button disabled while submitting.
 - [x] Server endpoint (Route Handler or Server Action): revalidation, honeypot, rate limit, no content logging.
-- [x] Provider integration (env vars), `From` on the own domain, `Reply-To` set to the sender. `resend` adapter ready; **provider still to be decided and tested with a real send**.
+- [x] Provider integration (env vars), `From` on the own domain, `Reply-To` set to the sender. Provider: Resend (`resend` adapter ready). **Still to be tested with a real send.**
 - [x] Real success state and error state with a `mailto:info@bcnshot.com` link.
-- [ ] If the final hosting is static: explicit decision from Marc (external function or `mailto:` only).
+- [ ] Real test send through Resend on Vercel (arrives at `info@bcnshot.com`, replying reaches the sender).
 
 ## Phase 4b — Languages (es / ca / en)
 

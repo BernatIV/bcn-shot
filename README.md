@@ -33,9 +33,9 @@ See `.env.example`. `.env.local` is never committed.
 | Variable | Use |
 | --- | --- |
 | `ALLOW_INDEXING` | `true` only on the real production site. Otherwise `noindex` and `robots.txt` with `Disallow: /`. Evaluated at build time. |
-| `MAIL_PROVIDER` | Transactional mail provider. Only the `resend` adapter exists right now (provider still to be decided). |
+| `MAIL_PROVIDER` | Transactional mail provider: `resend` (decided). |
 | `RESEND_API_KEY` | Provider key (server-only). |
-| `CONTACT_FROM_EMAIL` | Sender authorized by the provider's own domain, e.g. `BCN SHOT <web@bcnshot.com>`. |
+| `CONTACT_FROM_EMAIL` | Sender authorized by the provider's own domain, e.g. `BCN SHOT <web@send.bcnshot.com>`. |
 | `CONTACT_TO_EMAIL` | Recipient (defaults to `info@bcnshot.com`). |
 
 ## Content
@@ -85,13 +85,14 @@ While `photos` is empty, `npm run dev` shows gray placeholder photos (`content/d
 
 ### Testing the form
 
-1. Configure the provider in `.env.local` and verify the `bcnshot.com` domain with the provider (whatever SPF/DKIM records it requires).
-2. `npm run dev`, open `/es/contacto` (and `/ca/contacto`, `/en/contacto`), send a real message and check that it arrives at `info@bcnshot.com` and that replying reaches the sender.
-3. Also test error paths: empty fields, a message that's too short, no consent, and an invalid API key (should show the error with `mailto:`).
+1. In Resend (free plan), add and verify a **subdomain** such as `send.bcnshot.com` (it adds its own SPF/DKIM/MX records on that subdomain, so the root mail records stay untouched). Create an API key with *sending access* only.
+2. Set the variables in `.env.local` (locally) and in Vercel → *Settings → Environment Variables*: `MAIL_PROVIDER=resend`, `RESEND_API_KEY`, `CONTACT_FROM_EMAIL="BCN SHOT <web@send.bcnshot.com>"`, `CONTACT_TO_EMAIL=info@bcnshot.com`. Redeploy after changing them.
+3. `npm run dev` (or the Vercel deployment), open `/es/contacto` (and `/ca/contacto`, `/en/contacto`), send a real message and check that it arrives at `info@bcnshot.com` and that replying reaches the sender.
+4. Also test error paths: empty fields, a message that's too short, no consent, and an invalid API key (should show the error with `mailto:`).
 
 ## Deployment
 
-Hosting is still **undecided**. Requirement: it must support Next.js with server functions (Server Actions). **Do not** enable `output: "export"`: the form would stop working and `next/image` would need an external loader.
+Hosting: **Vercel** (decided; production plan still to be agreed with Oriol and Marc, since Hobby is non-commercial only). Requirement: it must support Next.js with server functions (Server Actions). **Do not** enable `output: "export"`: the form would stop working and `next/image` would need an external loader.
 
 General steps:
 
@@ -121,4 +122,4 @@ With no `MAIL_PROVIDER`, the form shows an error with a `mailto:` link (never a 
 
 ## Outstanding before launch
 
-See Phase 0 of `PLAN.md`: Oriol's review of the photos (selection, cover photo, `alt` text, model releases), final copy, legal identity data (name, NIF, address), hosting and mail provider.
+See Phase 0 of `PLAN.md`: Oriol's review of the photos (selection, cover photo, `alt` text, model releases), final copy, legal identity data (name, NIF, address), Vercel production plan, and the Resend setup (domain verification + real test send).
