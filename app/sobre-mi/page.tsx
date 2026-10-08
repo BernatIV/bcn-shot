@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { PendingAsset } from "@/components/pending-asset";
-import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { InstagramIcon } from "@/components/icons";
 import { copy } from "@/content/copy";
 import { siteConfig } from "@/content/site";
 import { focalPointToObjectPosition } from "@/lib/focal-point";
@@ -13,8 +13,12 @@ export const metadata = pageMetadata({
   path: "/sobre-mi",
 });
 
+const instagramLinkClass =
+  "inline-flex min-h-11 items-center gap-2 underline-offset-4 hover:underline";
+
 export default function AboutPage() {
-  const { aboutPortrait } = siteConfig;
+  const { aboutPortrait, instagramUrl, personalInstagramUrl } = siteConfig;
+  const hasInstagram = instagramUrl || personalInstagramUrl;
 
   return (
     <Container className="grid gap-10 pt-10 md:grid-cols-12 md:gap-12 md:pt-16">
@@ -43,9 +47,44 @@ export default function AboutPage() {
             </p>
           ))}
         </div>
-        <ButtonLink href={siteConfig.cta.href} className="mt-10">
-          {siteConfig.cta.label}
-        </ButtonLink>
+        {hasInstagram ? (
+          <dl className="mt-10 flex flex-col gap-5 sm:flex-row sm:gap-10">
+            {instagramUrl ? (
+              <div>
+                <dt className="text-sm text-muted">{copy.about.instagramProfessionalLabel}</dt>
+                <dd>
+                  <a
+                    href={instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={instagramLinkClass}
+                    aria-label="Instagram profesional de BCN SHOT, @bcnshot (se abre en una pestaña nueva)"
+                  >
+                    <InstagramIcon className="size-5 shrink-0" />
+                    @bcnshot
+                  </a>
+                </dd>
+              </div>
+            ) : null}
+            {personalInstagramUrl ? (
+              <div>
+                <dt className="text-sm text-muted">{copy.about.instagramPersonalLabel}</dt>
+                <dd>
+                  <a
+                    href={personalInstagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={instagramLinkClass}
+                    aria-label="Instagram personal de Oriol, @oriolmaneduatis (se abre en una pestaña nueva)"
+                  >
+                    <InstagramIcon className="size-5 shrink-0" />
+                    @oriolmaneduatis
+                  </a>
+                </dd>
+              </div>
+            ) : null}
+          </dl>
+        ) : null}
       </div>
     </Container>
   );

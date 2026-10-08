@@ -6,6 +6,8 @@ export const siteConfig = {
   email: "info@bcnshot.com",
   locale: "es_ES",
   instagramUrl: "https://www.instagram.com/bcnshot/" as string | null,
+  /** Oriol's personal Instagram account (as opposed to the BCN SHOT project account above). */
+  personalInstagramUrl: "https://www.instagram.com/oriolmaneduatis/" as string | null,
   heroImage: {
     src: "/images/portfolio/retrato-parque-gafas.webp",
     width: 1366,
