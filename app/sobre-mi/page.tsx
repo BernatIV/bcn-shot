@@ -48,42 +48,32 @@ export default function AboutPage() {
           ))}
         </div>
         {hasInstagram ? (
-          <dl className="mt-10 flex flex-col gap-5 sm:flex-row sm:gap-10">
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-8">
             {instagramUrl ? (
-              <div>
-                <dt className="text-sm text-muted">{copy.about.instagramProfessionalLabel}</dt>
-                <dd>
-                  <a
-                    href={instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={instagramLinkClass}
-                    aria-label="Instagram profesional de BCN SHOT, @bcnshot (se abre en una pestaña nueva)"
-                  >
-                    <InstagramIcon className="size-5 shrink-0" />
-                    @bcnshot
-                  </a>
-                </dd>
-              </div>
+              <a
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={instagramLinkClass}
+                aria-label="Instagram profesional de BCN SHOT, @bcnshot (se abre en una pestaña nueva)"
+              >
+                <InstagramIcon className="size-5 shrink-0" />
+                @bcnshot
+              </a>
             ) : null}
             {personalInstagramUrl ? (
-              <div>
-                <dt className="text-sm text-muted">{copy.about.instagramPersonalLabel}</dt>
-                <dd>
-                  <a
-                    href={personalInstagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={instagramLinkClass}
-                    aria-label="Instagram personal de Oriol, @oriolmaneduatis (se abre en una pestaña nueva)"
-                  >
-                    <InstagramIcon className="size-5 shrink-0" />
-                    @oriolmaneduatis
-                  </a>
-                </dd>
-              </div>
+              <a
+                href={personalInstagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={instagramLinkClass}
+                aria-label="Instagram personal de Oriol, @oriolmaneduatis (se abre en una pestaña nueva)"
+              >
+                <InstagramIcon className="size-5 shrink-0" />
+                @oriolmaneduatis
+              </a>
             ) : null}
-          </dl>
+          </div>
         ) : null}
       </div>
     </Container>

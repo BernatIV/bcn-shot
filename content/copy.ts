@@ -44,9 +44,6 @@ export const copy = {
       "Pasar varios años viviendo y viajando por la India y Australia definió mi forma de mirar y de relacionarme con las personas. Aprendí a adaptarme a cualquier entorno, a observar sin prejuicios y a valorar la belleza de lo cotidiano. Como fotógrafo —y también como músico—, presto especial atención al ritmo, al lenguaje corporal y a los silencios, elementos clave para que un retrato tenga fuerza propia.",
       "Mi objetivo en cada proyecto es que la técnica nunca eclipse a la persona. Trabajo para generar un espacio cómodo frente al objetivo, convencido de que la excelencia de una fotografía está en lograr que la naturalidad hable por sí sola.",
     ],
-    instagramHeading: "Instagram",
-    instagramProfessionalLabel: "Trabajo (BCN SHOT)",
-    instagramPersonalLabel: "Personal",
   },
   portfolio: {
     title: "Portfolio",
