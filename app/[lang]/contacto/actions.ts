@@ -1,13 +1,16 @@
 "use server";
 
 import { headers } from "next/headers";
+import { dictionaries } from "@/content/copy";
 import {
   emptyContactValues,
   validateContact,
   valuesFromFormData,
   type ContactErrors,
   type ContactValues,
+  type InquiryType,
 } from "@/lib/contact-validation";
+import { defaultLocale, hasLocale, localeNames } from "@/lib/i18n";
 import { sendMail } from "@/lib/mail";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -20,45 +23,44 @@ export type ContactState = {
   submittedAt?: number;
 };
 
-const GENERIC_ERROR =
-  "No hemos podido enviar tu mensaje. Inténtalo de nuevo más tarde o escríbeme directamente por correo.";
-
 export async function sendContact(_prev: ContactState, formData: FormData): Promise<ContactState> {
   const values = valuesFromFormData(formData);
   const submittedAt = Date.now();
 
+  // Server Actions can't read the [lang] root param: the form sends it as a hidden field.
+  const lang = formData.get("lang");
+  const locale = typeof lang === "string" && hasLocale(lang) ? lang : defaultLocale;
+  const t = dictionaries[locale].contact.form;
+
   // Honeypot field: real users never see it or fill it in.
   const honeypot = formData.get("website");
   if (typeof honeypot === "string" && honeypot.trim() !== "") {
-    return { status: "error", values, errors: {}, message: GENERIC_ERROR, submittedAt };
+    return { status: "error", values, errors: {}, message: t.status.genericError, submittedAt };
   }
 
   const h = await headers();
   const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "unknown";
   if (!rateLimit(`contact:${ip}`, { limit: 5, windowMs: 10 * 60 * 1000 }).ok) {
-    return {
-      status: "error",
-      values,
-      errors: {},
-      message: "Has enviado varios mensajes seguidos. Espera unos minutos o escríbeme directamente por correo.",
-      submittedAt,
-    };
+    return { status: "error", values, errors: {}, message: t.status.rateLimited, submittedAt };
   }
 
-  const errors = validateContact(values);
+  const errors = validateContact(values, t.validation);
   if (Object.keys(errors).length > 0) {
     return { status: "invalid", values, errors, submittedAt };
   }
 
+  // The email is for Oriol, so it is always written in Spanish.
+  const type = dictionaries.es.contact.form.inquiryTypes[values.type as InquiryType];
   const name = values.name.trim();
   const email = values.email.trim();
   const result = await sendMail({
     replyTo: email,
-    subject: `Nueva consulta web (${values.type}) — ${name}`,
+    subject: `Nueva consulta web (${type}) — ${name}`,
     text: [
       `Nombre: ${name}`,
       `Correo: ${email}`,
-      `Tipo de consulta: ${values.type}`,
+      `Tipo de consulta: ${type}`,
+      `Idioma de la web: ${localeNames[locale]}`,
       "",
       values.message.trim(),
       "",
@@ -68,14 +70,14 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
   });
 
   if (!result.ok) {
-    return { status: "error", values, errors: {}, message: GENERIC_ERROR, submittedAt };
+    return { status: "error", values, errors: {}, message: t.status.genericError, submittedAt };
   }
 
   return {
     status: "success",
     values: emptyContactValues,
     errors: {},
-    message: "Gracias, he recibido tu mensaje. Te responderé por correo.",
+    message: t.status.success,
     submittedAt,
   };
 }

@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 // Do NOT enable `output: "export"`: the contact form relies on a Server Action.
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  experimental: {
+    // The root layout is app/[lang]/layout.tsx, so 404s are rendered by app/global-not-found.tsx.
+    globalNotFound: true,
+  },
   images: {
     formats: ["image/avif", "image/webp"],
   },

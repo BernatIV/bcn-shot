@@ -2,7 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { photos } from "@/content/photos";
 import { devPlaceholderPhotos } from "@/content/dev-placeholder-photos";
-import type { FocalPoint, PortfolioPhoto } from "@/content/types";
+import type { FocalPoint, Photo, PortfolioPhoto } from "@/content/types";
+import { locales, type Locale } from "@/lib/i18n";
 
 const isDev = process.env.NODE_ENV === "development";
 const isBuild = process.env.NEXT_PHASE === "phase-production-build";
@@ -21,7 +22,12 @@ export function validatePhotos(list: PortfolioPhoto[], { checkFiles }: { checkFi
     if (orders.has(p.order)) errors.push(`${label}: duplicated order ${p.order}`);
     orders.add(p.order);
     if (!(p.width > 0) || !(p.height > 0)) errors.push(`${label}: width/height must be positive`);
-    if (p.published && p.alt.trim().length < 5) errors.push(`${label}: published photo needs a descriptive alt`);
+    if (p.published) {
+      for (const locale of locales) {
+        if ((p.alt[locale] ?? "").trim().length < 5) errors.push(`${label}: published photo needs a descriptive alt (${locale})`);
+        if (p.title && !p.title[locale]?.trim()) errors.push(`${label}: title is missing its ${locale} translation`);
+      }
+    }
     if (p.shotDate && !/^\d{4}-\d{2}-\d{2}$/.test(p.shotDate)) errors.push(`${label}: shotDate must be YYYY-MM-DD`);
     if (p.focalPoint && !isValidFocalPoint(p.focalPoint)) errors.push(`${label}: focalPoint must be 0..100`);
     if (checkFiles) {
@@ -52,12 +58,19 @@ validatePhotos(source, { checkFiles: isDev || isBuild });
 
 export const usingPlaceholderPhotos = source !== photos;
 
-export function getPublishedPhotos(): PortfolioPhoto[] {
-  return source.filter((p) => p.published).sort((a, b) => a.order - b.order);
+function resolve(photo: PortfolioPhoto, locale: Locale): Photo {
+  return { ...photo, alt: photo.alt[locale], title: photo.title?.[locale] };
 }
 
-export function getFeaturedPhotos(): PortfolioPhoto[] {
-  return getPublishedPhotos()
+export function getPublishedPhotos(locale: Locale): Photo[] {
+  return source
+    .filter((p) => p.published)
+    .sort((a, b) => a.order - b.order)
+    .map((p) => resolve(p, locale));
+}
+
+export function getFeaturedPhotos(locale: Locale): Photo[] {
+  return getPublishedPhotos(locale)
     .filter((p) => p.featured)
     .slice(0, 8);
 }

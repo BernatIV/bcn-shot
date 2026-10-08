@@ -28,7 +28,7 @@ These block launch, not development (placeholders are used in the meantime).
 
 ## Phase 2 — Shared layout
 
-- [x] `app/layout.tsx` with `lang="es"`, base metadata, fonts.
+- [x] `app/[lang]/layout.tsx` with the page's `lang`, base metadata, fonts.
 - [x] `Header`: placeholder logo, nav, "Reserva tu sesión" CTA, active route.
 - [x] Accessible mobile menu (Escape, close button, closes on navigation, focus).
 - [x] `Footer`: email, Instagram (only if confirmed), legal notice, privacy.
@@ -40,16 +40,25 @@ These block launch, not development (placeholders are used in the meantime).
 - [x] `/portfolio` — 1/2/3-column grid, `next/image` with dimensions, lazy loading, `focalPoint`, empty state with CTA.
 - [x] Lightbox — accessible dialog, keyboard/touch/mouse, focus and scroll handling, "n / total", reduced motion, `lightboxSrc`.
 - [x] `/sobre-mi` — portrait (or placeholder), short copy, CTA.
-- [x] `/aviso-legal` and `/privacidad` — full copy written; identity data and hosting/mail provider still marked `TODO_PUBLICACION`.
+- [x] `/aviso-legal` and `/privacidad` — full copy written (identity data in `siteConfig.owner`).
 
 ## Phase 4 — Contact
 
-- [x] Shared validation schema (`lib/`) with the spec's limits and Spanish messages.
+- [x] Shared validation schema (`lib/`) with the spec's limits and localized messages.
 - [x] Client form: visible labels, per-field errors + summary, preserves input, button disabled while submitting.
 - [x] Server endpoint (Route Handler or Server Action): revalidation, honeypot, rate limit, no content logging.
 - [x] Provider integration (env vars), `From` on the own domain, `Reply-To` set to the sender. `resend` adapter ready; **provider still to be decided and tested with a real send**.
 - [x] Real success state and error state with a `mailto:info@bcnshot.com` link.
 - [ ] If the final hosting is static: explicit decision from Marc (external function or `mailto:` only).
+
+## Phase 4b — Languages (es / ca / en)
+
+- [x] Routes under `app/[lang]` (static for es/ca/en; route segments not translated) and `app/global-not-found.tsx` for localized 404s.
+- [x] `proxy.ts`: redirects unprefixed URLs by cookie `NEXT_LOCALE` → `Accept-Language` → Spanish.
+- [x] Typed dictionaries `content/copy/{es,ca,en}.ts`, including legal pages, form validation and photo `alt` text.
+- [x] Language switcher in the header and mobile menu (remembers the choice in the `NEXT_LOCALE` cookie, documented in `/privacidad`).
+- [x] hreflang + `x-default`, per-language canonical, `og:locale` and sitemap with alternates.
+- [ ] Oriol's review of the Catalan and English translations (especially the legal texts).
 
 ## Phase 5 — SEO, accessibility and performance
 
@@ -63,7 +72,7 @@ These block launch, not development (placeholders are used in the meantime).
 
 - [x] Complete `README.md`: setup, env, adding/reordering photos, running, deploying, domain/DNS, testing the form.
 - [ ] Staging deployment (noindex) and review with Oriol.
-- [ ] Replace placeholders with approved assets and copy; fill in the remaining `TODO_PUBLICACION` fields on the legal pages (identity data, hosting/mail provider).
+- [ ] Replace placeholders with approved assets and copy (in the three languages); resolve any remaining `TODO_PUBLICACION`.
 - [ ] Real end-to-end test of the form reaching `info@bcnshot.com`.
 - [ ] Connect the domain without touching the mail DNS records; verify mail afterwards.
 - [ ] Communicated list of outstanding data.

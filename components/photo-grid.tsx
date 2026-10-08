@@ -2,12 +2,20 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { Lightbox } from "@/components/lightbox";
-import type { PortfolioPhoto } from "@/content/types";
+import { Lightbox, type LightboxLabels } from "@/components/lightbox";
+import type { Photo } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { focalPointToObjectPosition } from "@/lib/focal-point";
 
-export function PhotoGrid({ photos, loop }: { photos: PortfolioPhoto[]; loop: boolean }) {
+export function PhotoGrid({
+  photos,
+  loop,
+  labels,
+}: {
+  photos: Photo[];
+  loop: boolean;
+  labels: { enlarge: string; lightbox: LightboxLabels };
+}) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -24,7 +32,7 @@ export function PhotoGrid({ photos, loop }: { photos: PortfolioPhoto[]; loop: bo
                   setOpenIndex(i);
                 }}
                 className="group block w-full cursor-zoom-in overflow-hidden bg-border/40"
-                aria-label={`Ampliar: ${photo.title ?? photo.alt}`}
+                aria-label={`${labels.enlarge}: ${photo.title ?? photo.alt}`}
                 aria-haspopup="dialog"
               >
                 <Image
@@ -60,6 +68,7 @@ export function PhotoGrid({ photos, loop }: { photos: PortfolioPhoto[]; loop: bo
         onIndexChange={setOpenIndex}
         onClose={() => setOpenIndex(null)}
         returnFocusTo={openerRef}
+        labels={labels.lightbox}
       />
     </>
   );

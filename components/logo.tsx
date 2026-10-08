@@ -4,15 +4,21 @@ import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/cn";
 
 /** Logo linking to the homepage. Until the final file is in place (siteConfig.logo), a provisional typographic treatment is used. */
-export function Logo({ className, onNavigate }: { className?: string; onNavigate?: () => void }) {
+export function Logo({
+  href,
+  label,
+  className,
+  onNavigate,
+}: {
+  href: string;
+  /** Accessible name of the link (translated). */
+  label: string;
+  className?: string;
+  onNavigate?: () => void;
+}) {
   const { logo } = siteConfig;
   return (
-    <Link
-      href="/"
-      onClick={onNavigate}
-      aria-label={`${siteConfig.name}, ir a inicio`}
-      className={cn("inline-flex items-center", className)}
-    >
+    <Link href={href} onClick={onNavigate} aria-label={label} className={cn("inline-flex items-center", className)}>
       {logo ? (
         <Image
           src={logo.src}

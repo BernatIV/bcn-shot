@@ -4,9 +4,11 @@ import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { useRef, type KeyboardEvent, type RefObject, type TouchEvent } from "react";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "@/components/icons";
-import type { PortfolioPhoto } from "@/content/types";
+import type { Photo } from "@/content/types";
 
 const SWIPE_THRESHOLD = 50;
+
+export type LightboxLabels = { title: string; photo: string; close: string; previous: string; next: string };
 
 const controlClass =
   "inline-flex size-12 items-center justify-center rounded-full text-white/85 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-white disabled:pointer-events-none disabled:opacity-30";
@@ -18,13 +20,15 @@ export function Lightbox({
   onIndexChange,
   onClose,
   returnFocusTo,
+  labels,
 }: {
-  photos: PortfolioPhoto[];
+  photos: Photo[];
   index: number | null;
   loop: boolean;
   onIndexChange: (index: number) => void;
   onClose: () => void;
   returnFocusTo: RefObject<HTMLElement | null>;
+  labels: LightboxLabels;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -79,18 +83,18 @@ export function Lightbox({
           }}
           className="fixed inset-0 z-50 flex flex-col text-white outline-none"
         >
-          <Dialog.Title className="sr-only">Visor de fotos</Dialog.Title>
+          <Dialog.Title className="sr-only">{labels.title}</Dialog.Title>
 
           <div className="flex h-16 shrink-0 items-center justify-between px-3 sm:px-5">
             <p className="px-2 text-sm tabular-nums text-white/75" aria-live="polite" aria-atomic="true">
               {open ? (
                 <>
-                  <span className="sr-only">Foto </span>
+                  <span className="sr-only">{labels.photo} </span>
                   {index + 1} / {total}
                 </>
               ) : null}
             </p>
-            <Dialog.Close ref={closeRef} className={controlClass} aria-label="Cerrar visor">
+            <Dialog.Close ref={closeRef} className={controlClass} aria-label={labels.close}>
               <CloseIcon />
             </Dialog.Close>
           </div>
@@ -118,7 +122,7 @@ export function Lightbox({
               type="button"
               onClick={() => go(-1)}
               disabled={!hasPrev}
-              aria-label="Foto anterior"
+              aria-label={labels.previous}
               className={`${controlClass} absolute top-1/2 left-1 -translate-y-1/2 sm:left-4`}
             >
               <ChevronLeftIcon />
@@ -127,7 +131,7 @@ export function Lightbox({
               type="button"
               onClick={() => go(1)}
               disabled={!hasNext}
-              aria-label="Foto siguiente"
+              aria-label={labels.next}
               className={`${controlClass} absolute top-1/2 right-1 -translate-y-1/2 sm:right-4`}
             >
               <ChevronRightIcon />

@@ -1,28 +1,30 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState, useEffect, useRef, useState, type FormEvent } from "react";
-import { sendContact, type ContactState } from "@/app/contacto/actions";
+import { sendContact, type ContactState } from "@/app/[lang]/contacto/actions";
+import { RichText } from "@/components/rich-text";
 import { buttonClasses } from "@/components/ui/button";
+import type { Copy } from "@/content/copy";
 import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/cn";
 import {
-  FIELD_LABELS,
   INQUIRY_TYPES,
   LIMITS,
   emptyContactValues,
+  fillTemplate,
   validateContact,
   valuesFromFormData,
   type ContactErrors,
   type ContactField,
 } from "@/lib/contact-validation";
+import { localeTags, type Locale } from "@/lib/i18n";
 
 const initialState: ContactState = { status: "idle", values: emptyContactValues, errors: {} };
 
 const inputClass =
   "block w-full rounded-button border border-border bg-surface px-4 py-3 text-base text-foreground placeholder:text-muted/70 focus-visible:border-foreground aria-[invalid=true]:border-danger";
 
-export function ContactForm() {
+export function ContactForm({ locale, t }: { locale: Locale; t: Copy["contact"]["form"] }) {
   const [state, formAction, pending] = useActionState(sendContact, initialState);
   // Client-side validation errors (before submit). Server ones arrive in `state.errors`.
   const [clientErrors, setClientErrors] = useState<{ errors: ContactErrors; at: number } | null>(null);
@@ -44,7 +46,7 @@ export function ContactForm() {
   }, [clientErrors]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    const found = validateContact(valuesFromFormData(new FormData(e.currentTarget)));
+    const found = validateContact(valuesFromFormData(new FormData(e.currentTarget)), t.validation);
     if (Object.keys(found).length > 0) {
       e.preventDefault();
       setClientErrors({ errors: found, at: Date.now() });
@@ -72,6 +74,7 @@ export function ContactForm() {
 
   return (
     <form action={formAction} onSubmit={onSubmit} noValidate className="space-y-7" key={state.submittedAt ?? 0}>
+      <input type="hidden" name="lang" value={locale} />
       {errorFields.length > 0 ? (
         <div
           ref={summaryRef}
@@ -79,12 +82,12 @@ export function ContactForm() {
           role="alert"
           className="border border-danger/40 bg-surface p-5 text-sm outline-none focus-visible:outline-danger"
         >
-          <p className="font-semibold text-danger">Revisa los siguientes campos:</p>
+          <p className="font-semibold text-danger">{t.errorSummary}</p>
           <ul className="mt-2 list-disc space-y-1 pl-5">
             {errorFields.map((f) => (
               <li key={f}>
                 <a href={`#contact-${f}`} className="underline underline-offset-4">
-                  {FIELD_LABELS[f]}
+                  {t.fields[f]}
                 </a>
                 : {errors[f]}
               </li>
@@ -106,7 +109,7 @@ export function ContactForm() {
           <p>{state.message}</p>
           {state.status === "error" ? (
             <p className="mt-2 text-foreground">
-              Correo:{" "}
+              {t.emailFallback}{" "}
               <a href={`mailto:${siteConfig.email}`} className="underline underline-offset-4">
                 {siteConfig.email}
               </a>
@@ -117,7 +120,7 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="contact-name" className="mb-2 block font-medium">
-          {FIELD_LABELS.name}
+          {t.fields.name}
         </label>
         <input
           {...fieldProps("name")}
@@ -133,7 +136,7 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="contact-email" className="mb-2 block font-medium">
-          {FIELD_LABELS.email}
+          {t.fields.email}
         </label>
         <input
           {...fieldProps("email")}
@@ -150,12 +153,12 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="contact-type" className="mb-2 block font-medium">
-          {FIELD_LABELS.type}
+          {t.fields.type}
         </label>
         <select {...fieldProps("type")} defaultValue={v.type} className={cn(inputClass, "appearance-auto")}>
-          {INQUIRY_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {t}
+          {INQUIRY_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {t.inquiryTypes[type]}
             </option>
           ))}
         </select>
@@ -164,10 +167,13 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="contact-message" className="mb-2 block font-medium">
-          {FIELD_LABELS.message}
+          {t.fields.message}
         </label>
         <p id="contact-message-hint" className="mb-2 text-sm text-muted">
-          Entre {LIMITS.messageMin} y {LIMITS.messageMax.toLocaleString("es-ES")} caracteres.
+          {fillTemplate(t.messageHint, {
+            min: LIMITS.messageMin,
+            max: LIMITS.messageMax.toLocaleString(localeTags[locale]),
+          })}
         </p>
         <textarea
           {...fieldProps("message")}
@@ -183,7 +189,7 @@ export function ContactForm() {
 
       {/* Anti-spam honeypot field: invisible to people and assistive technologies. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-        <label htmlFor="contact-website">No rellenes este campo</label>
+        <label htmlFor="contact-website">{t.honeypot}</label>
         <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
       </div>
 
@@ -197,18 +203,14 @@ export function ContactForm() {
             className="mt-1 size-5 shrink-0 accent-foreground"
           />
           <label htmlFor="contact-consent" className="text-[0.9375rem]">
-            He leído y acepto la{" "}
-            <Link href="/privacidad" className="underline underline-offset-4">
-              política de privacidad
-            </Link>
-            .
+            <RichText text={t.consent} locale={locale} linkClassName="underline underline-offset-4" />
           </label>
         </div>
         {fieldError("consent")}
       </div>
 
       <button type="submit" disabled={pending} aria-disabled={pending} className={buttonClasses("primary", "w-full sm:w-auto")}>
-        {pending ? "Enviando…" : "Enviar mensaje"}
+        {pending ? t.submitting : t.submit}
       </button>
     </form>
   );

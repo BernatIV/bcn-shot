@@ -40,7 +40,8 @@ See `.env.example`. `.env.local` is never committed.
 
 ## Content
 
-- **Copy**: `content/copy.ts` (Spanish; set up so other languages can be added later).
+- **Copy**: `content/copy/es.ts` (Spanish, the reference that defines the shape), `content/copy/ca.ts` and `content/copy/en.ts`. Add every new string to all three files (`npm run typecheck` fails if a key is missing).
+- **Languages**: the site is in Spanish, Catalan and English under `/es`, `/ca` and `/en` (route segments aren't translated). A URL without prefix (`/`, `/portfolio`...) is redirected by `proxy.ts` to the visitor's language: the `NEXT_LOCALE` cookie (set when they use the language switcher), else the browser's `Accept-Language`, else Spanish. Details in `AGENTS.md` → Internationalization.
 - **Configuration**: `content/site.ts` (`siteConfig`): email, domain, Instagram, hero photo, Oriol's portrait, logo, navigation.
   - `instagramUrl: "https://www.instagram.com/bcnshot/"`. If it ever needs removing, set it back to `null` and no Instagram link is rendered.
   - `heroImage`, `aboutPortrait`, `logo`: already point to real assets. Setting them to `null` shows `TODO_PUBLICACION` markers (or the typographic logo).
@@ -59,7 +60,11 @@ See `.env.example`. `.env.local` is never committed.
      src: "/images/portfolio/editorial-01.webp",
      lightboxSrc: "/images/portfolio/editorial-01-large.webp", // optional
      width: 1600, height: 2000,                                 // real dimensions of the src file
-     alt: "Useful description in Spanish",
+     alt: {
+       es: "Useful description in Spanish",
+       ca: "Useful description in Catalan",
+       en: "Useful description in English",
+     },
      featured: true,   // shown on the homepage (4–8 total)
      published: true,  // only with permission to publish
      order: 10,        // ascending order; leave gaps (10, 20...) to reorder easily
@@ -67,13 +72,13 @@ See `.env.example`. `.env.local` is never committed.
    ```
 
    Optional: `title`, `credit`, `shotDate` (`YYYY-MM-DD`, verified), `location` (only if it can be published), `focalPoint` (`{ x, y }` 0–100; sets the crop position. From 2 columns up every grid thumbnail is cropped to 4:5, centered by default; on single-column mobile the crop only applies when `focalPoint` is set).
-4. `npm run dev` / `npm run build` validate the data: unique ids and `order`, positive dimensions, `alt` present and files that exist. The build fails if there are errors.
+4. `npm run dev` / `npm run build` validate the data: unique ids and `order`, positive dimensions, `alt` present in every language and files that exist. The build fails if there are errors.
 
 While `photos` is empty, `npm run dev` shows gray placeholder photos (`content/dev-placeholder-photos.ts`) so the design can still be worked on. **They never appear in production**: the portfolio page shows the empty state with a CTA.
 
 ## Contact form
 
-- Server Action at `app/contacto/actions.ts`; shared validation in `lib/contact-validation.ts`; sending in `lib/mail.ts`.
+- Server Action at `app/[lang]/contacto/actions.ts`; shared validation in `lib/contact-validation.ts`; sending in `lib/mail.ts`. Errors are shown in the page language; the email Oriol receives is always in Spanish and says which language the visitor used.
 - Anti-spam: honeypot field (`website`) and a limit of 5 submissions / 10 min per IP (in memory; per instance if hosting is serverless).
 - `From` = `CONTACT_FROM_EMAIL` (own domain), `Reply-To` = the sender's email. Message content is never logged.
 - With no provider configured, the form shows an error with a `mailto:` link (never a fake confirmation).
@@ -81,7 +86,7 @@ While `photos` is empty, `npm run dev` shows gray placeholder photos (`content/d
 ### Testing the form
 
 1. Configure the provider in `.env.local` and verify the `bcnshot.com` domain with the provider (whatever SPF/DKIM records it requires).
-2. `npm run dev`, open `/contacto`, send a real message and check that it arrives at `info@bcnshot.com` and that replying reaches the sender.
+2. `npm run dev`, open `/es/contacto` (and `/ca/contacto`, `/en/contacto`), send a real message and check that it arrives at `info@bcnshot.com` and that replying reaches the sender.
 3. Also test error paths: empty fields, a message that's too short, no consent, and an invalid API key (should show the error with `mailto:`).
 
 ## Deployment
@@ -92,7 +97,7 @@ General steps:
 
 1. Configure the environment variables on the platform (`ALLOW_INDEXING=true` only in production).
 2. Deploy a staging environment (without `ALLOW_INDEXING`) and review it with Oriol.
-3. Resolve every remaining `TODO_PUBLICACION` (search for them in the code): the legal pages now have full copy, but the identity data (Oriol's legal name, NIF, address) and the final hosting/mail providers are still marked pending.
+3. Resolve every remaining `TODO_PUBLICACION` (search for them in the code) and get Oriol's approval for the copy in the three languages, especially the Catalan and English legal texts.
 
 ### Staging environment on Vercel
 

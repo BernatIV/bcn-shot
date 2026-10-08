@@ -1,14 +1,17 @@
 import { cn } from "@/lib/cn";
+import { getCopy } from "@/lib/locale";
 
 /**
  * Explicit marker for a pending asset (photo, portrait...). It isn't an image: it's a labeled
  * block so nobody mistakes it for Oriol's work. Replace before launch (TODO_PUBLICACION).
  */
-export function PendingAsset({ label, className }: { label: string; className?: string }) {
+export async function PendingAsset({ label, className }: { label: string; className?: string }) {
+  const { t } = await getCopy();
+
   return (
     <div
       role="img"
-      aria-label={`Imagen pendiente: ${label}`}
+      aria-label={`${t.pending.prefix}: ${label}`}
       data-todo="TODO_PUBLICACION"
       className={cn(
         "flex items-center justify-center border border-dashed border-muted/60 bg-[repeating-linear-gradient(135deg,transparent_0_12px,rgb(0_0_0/0.035)_12px_24px)] p-6 text-center",

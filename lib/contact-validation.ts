@@ -1,6 +1,11 @@
-/** Validation shared between client and server for the contact form. */
+/**
+ * Validation shared between client and server for the contact form.
+ * Messages come from the dictionary of the visitor's language (content/copy → contact.form.validation).
+ */
+import type { Copy } from "@/content/copy";
 
-export const INQUIRY_TYPES = ["Sesión", "Colaboración TFP", "Otra"] as const;
+/** Stable values sent by the form; the visible labels live in content/copy (contact.form.inquiryTypes). */
+export const INQUIRY_TYPES = ["session", "tfp", "other"] as const;
 export type InquiryType = (typeof INQUIRY_TYPES)[number];
 
 export const LIMITS = {
@@ -22,13 +27,12 @@ export type ContactValues = {
 
 export type ContactErrors = Partial<Record<ContactField, string>>;
 
-export const FIELD_LABELS: Record<ContactField, string> = {
-  name: "Nombre",
-  email: "Correo electrónico",
-  type: "Tipo de consulta",
-  message: "Mensaje",
-  consent: "Política de privacidad",
-};
+export type ValidationMessages = Copy["contact"]["form"]["validation"];
+
+/** Fills {placeholders} in a translated message. */
+export function fillTemplate(template: string, vars: Record<string, string | number>) {
+  return template.replace(/\{(\w+)\}/g, (match, key: string) => (key in vars ? String(vars[key]) : match));
+}
 
 export const emptyContactValues: ContactValues = {
   name: "",
@@ -56,35 +60,39 @@ export function valuesFromFormData(formData: FormData): ContactValues {
   };
 }
 
+export function isInquiryType(value: string): value is InquiryType {
+  return (INQUIRY_TYPES as readonly string[]).includes(value);
+}
+
 /** Length in characters (not UTF-16 units), consistent with what the user sees. */
 function charLength(s: string) {
   return Array.from(s).length;
 }
 
-export function validateContact(values: ContactValues): ContactErrors {
+export function validateContact(values: ContactValues, m: ValidationMessages): ContactErrors {
   const errors: ContactErrors = {};
   const name = values.name.trim();
   const email = values.email.trim();
   const message = values.message.trim();
 
-  if (!name) errors.name = "Escribe tu nombre.";
-  else if (charLength(name) > LIMITS.nameMax) errors.name = `El nombre no puede superar los ${LIMITS.nameMax} caracteres.`;
-  else if (/[\r\n]/.test(name) || CONTROL_CHARS_RE.test(name)) errors.name = "El nombre contiene caracteres no válidos.";
+  if (!name) errors.name = m.nameRequired;
+  else if (charLength(name) > LIMITS.nameMax) errors.name = fillTemplate(m.nameTooLong, { max: LIMITS.nameMax });
+  else if (/[\r\n]/.test(name) || CONTROL_CHARS_RE.test(name)) errors.name = m.nameInvalid;
 
-  if (!email) errors.email = "Escribe tu correo electrónico.";
-  else if (email.length > LIMITS.emailMax) errors.email = `El correo no puede superar los ${LIMITS.emailMax} caracteres.`;
-  else if (!EMAIL_RE.test(email)) errors.email = "Escribe un correo válido, por ejemplo nombre@dominio.com.";
+  if (!email) errors.email = m.emailRequired;
+  else if (email.length > LIMITS.emailMax) errors.email = fillTemplate(m.emailTooLong, { max: LIMITS.emailMax });
+  else if (!EMAIL_RE.test(email)) errors.email = m.emailInvalid;
 
-  if (!(INQUIRY_TYPES as readonly string[]).includes(values.type)) errors.type = "Elige un tipo de consulta.";
+  if (!isInquiryType(values.type)) errors.type = m.typeRequired;
 
-  if (!message) errors.message = "Escribe tu mensaje.";
+  if (!message) errors.message = m.messageRequired;
   else if (charLength(message) < LIMITS.messageMin)
-    errors.message = `El mensaje debe tener al menos ${LIMITS.messageMin} caracteres.`;
+    errors.message = fillTemplate(m.messageTooShort, { min: LIMITS.messageMin });
   else if (charLength(message) > LIMITS.messageMax)
-    errors.message = `El mensaje no puede superar los ${LIMITS.messageMax} caracteres.`;
-  else if (CONTROL_CHARS_RE.test(message)) errors.message = "El mensaje contiene caracteres no válidos.";
+    errors.message = fillTemplate(m.messageTooLong, { max: LIMITS.messageMax });
+  else if (CONTROL_CHARS_RE.test(message)) errors.message = m.messageInvalid;
 
-  if (!values.consent) errors.consent = "Debes aceptar la política de privacidad para enviar el formulario.";
+  if (!values.consent) errors.consent = m.consentRequired;
 
   return errors;
 }

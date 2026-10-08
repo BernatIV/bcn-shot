@@ -1,6 +1,6 @@
 # BCN SHOT — especificacions per construir la web
 
-Versió 1.0 · 28 de setembre de 2026 · Document per a Marc i l'agent de programació
+Versió 1.1 · 8 d'octubre de 2026 (afegeix català i anglès) · Document per a Marc i l'agent de programació
 
 ## Instrucció per a l'agent
 
@@ -14,7 +14,7 @@ Construeix una web funcional, responsive i llesta per revisar a partir d'aquest 
 
 **Sensació:** editorial de moda contemporània, premium, humana i sòbria. Fotos grans, molt aire, composició precisa, text curt, cap efecte vistós que competeixi amb les fotografies. No donar a entendre que Oriol fa vídeo o so. No dir que només fotografia dones ni publicar límits d'edat o criteris físics.
 
-**Idioma inicial de la web:** castellà, perquè el públic objectiu és Barcelona i la comunicació comercial del projecte ja és en castellà. Preparar el contingut per poder afegir català i anglès després, sense crear rutes idiomàtiques buides ara. El text entre cometes en aquest document és proposta editable, no una afirmació factual sobre trajectòria.
+**Idiomes de la web:** castellà (idioma per defecte, perquè la comunicació comercial del projecte ja és en castellà), català i anglès, amb tot el contingut traduït (no hi ha versions buides ni parcials). Cada visitant veu la web en el seu idioma segons les regles de l'apartat 2.1 i el pot canviar en qualsevol moment. Les traduccions al català i a l'anglès són proposta pendent de revisió d'Oriol, igual que el text en castellà. El text entre cometes en aquest document és proposta editable, no una afirmació factual sobre trajectòria.
 
 **Conversió prioritària:** botó «Reserva tu sesión» cap a `/contacto`, accessible des de capçalera, portada, portafolis i peu. Canal alternatiu visible: enllaç `mailto:info@bcnshot.com`. Enllaç a Instagram quan Marc confirmi l'URL exacta del compte BCN SHOT; no deduir-la a partir del nom de marca.
 
@@ -31,7 +31,18 @@ Construeix una web funcional, responsive i llesta per revisar a partir d'aquest 
 | `/aviso-legal` | Text legal validat | Identificació i informació legal |
 | `/privacidad` | Text de privacitat validat | Informació sobre dades del formulari |
 
-Navegació principal: «Portfolio», «Sobre mí», «Contacto» i CTA «Reserva tu sesión». Logotip BCN SHOT enllaçat a inici. No crear blog, botiga, pagaments, compte d'usuari, agenda automàtica ni galeria amb contrasenya en aquesta fase. El peu inclou correu, Instagram confirmat, avís legal i privacitat.
+Navegació principal: «Portfolio», «Sobre mí», «Contacto» i CTA «Reserva tu sesión» (i els equivalents en català i anglès). Logotip BCN SHOT enllaçat a inici. No crear blog, botiga, pagaments, compte d'usuari, agenda automàtica ni galeria amb contrasenya en aquesta fase. El peu inclou correu, Instagram confirmat, avís legal i privacitat.
+
+Les rutes de la taula existeixen en cada idioma amb un prefix: `/es/...`, `/ca/...` i `/en/...` (per exemple `/ca/portfolio`, `/en/contacto`). Els trossos de ruta **no es tradueixen**: són els mateixos en els tres idiomes.
+
+### 2.1 Idiomes i detecció
+
+- Idiomes: `es` (per defecte), `ca` i `en`. Cada pàgina té la seva URL per idioma, renderitzada al servidor i estàtica; el document té `lang` correcte (`es`, `ca`, `en`).
+- Una URL sense prefix (per exemple `/` o `/portfolio`) es redirigeix (307, `Vary: Accept-Language, Cookie`) a l'idioma del visitant, per aquest ordre: 1) l'idioma triat explícitament al selector (cookie `NEXT_LOCALE`), 2) la capçalera `Accept-Language` del navegador (es respecta l'ordre de preferència), 3) castellà si el navegador no n'envia cap. Gallec, basc, asturià i aragonès van a castellà; qualsevol altre idioma no suportat va a anglès.
+- Una URL que ja porta prefix no es redirigeix mai: els enllaços compartits i els cercadors veuen exactament l'idioma que demanen.
+- Selector d'idioma visible a la capçalera (i al menú mòbil) que porta a la mateixa pàgina en l'altre idioma. En fer-hi clic es desa la cookie tècnica `NEXT_LOCALE` (1 any) per recordar l'elecció; no es desa cap cookie si el visitant no tria.
+- Textos en diccionaris tipats per idioma (`content/copy/{es,ca,en}.ts`); el castellà defineix l'estructura i TypeScript obliga que els altres idiomes tinguin les mateixes claus. Els textos alternatius de les fotos també són per idioma. No fer servir llibreries d'i18n de client.
+- Pàgina 404 en l'idioma de la URL (o el preferit del visitant si la URL no en porta).
 
 ### Textos inicials suggerits
 
@@ -80,15 +91,15 @@ No prometre disponibilitat, terminis de lliurament, resultats ni tarifes que enc
 
 ### 3.6 Contacte i formulari
 
-- Camps: nom (`required`, màxim 100), correu (`required`, format email, màxim 254), tipus de consulta (`Sesión`, `Colaboración TFP`, `Otra`), missatge (`required`, de 10 a 2.000 caràcters), casella de consentiment de privacitat (`required`, sense premarcar) amb enllaç a `/privacidad`. Telèfon i pressupost no són obligatoris en aquesta versió.
-- Etiquetes sempre visibles, validació comprensible en castellà, missatges d'error associats als camps i resum accessible quan calgui. Conservar les dades introduïdes si hi ha un error. Desactivar el botó mentre s'envia per impedir duplicats.
+- Camps: nom (`required`, màxim 100), correu (`required`, format email, màxim 254), tipus de consulta (`Sesión`, `Colaboración TFP`, `Otra`, amb etiqueta traduïda a cada idioma), missatge (`required`, de 10 a 2.000 caràcters), casella de consentiment de privacitat (`required`, sense premarcar) amb enllaç a `/privacidad`. Telèfon i pressupost no són obligatoris en aquesta versió.
+- Etiquetes sempre visibles, validació comprensible en l'idioma de la pàgina (també els errors que retorna el servidor), missatges d'error associats als camps i resum accessible quan calgui. Conservar les dades introduïdes si hi ha un error. Desactivar el botó mentre s'envia per impedir duplicats.
 - A l'enviament, validar també al servidor, utilitzar protecció bàsica contra spam (camp trampa i límit de peticions), no exposar credencials al navegador i enviar la consulta a `info@bcnshot.com` mitjançant un proveïdor transaccional configurat amb variables d'entorn. `Reply-To` ha de ser el correu de la persona; el `From` ha de pertànyer al domini i estar autoritzat pel servei. No fer spoofing del remitent.
-- Mostrar confirmació només quan el servei d'enviament hagi acceptat el missatge. Si falla, mostrar un error útil amb enllaç `mailto:info@bcnshot.com`; no afirmar que s'ha enviat. No registrar el contingut del missatge en logs.
+- Mostrar confirmació només quan el servei d'enviament hagi acceptat el missatge. Si falla, mostrar un error útil amb enllaç `mailto:info@bcnshot.com`; no afirmar que s'ha enviat. No registrar el contingut del missatge en logs. El correu que rep Oriol és sempre en castellà i indica l'idioma de la web des d'on s'ha enviat.
 - Si el desplegament escollit és purament estàtic i no admet backend, Marc ha d'escollir explícitament entre funció externa segura i una primera versió amb enllaç de correu; no simular un formulari que no envia.
 
 ### 3.7 SEO, accessibilitat i rendiment
 
-- `lang="es"`, un H1 per pàgina, jerarquia de títols coherent, títol i descripció únics, URL canònica `https://bcnshot.com`, favicon i imatge Open Graph amb actius aprovats. Generar `sitemap.xml` i `robots.txt`; no indexar entorns de prova.
+- `lang` de l'idioma de la pàgina, un H1 per pàgina, jerarquia de títols coherent, títol i descripció únics per pàgina i idioma, URL canònica `https://bcnshot.com/{idioma}/...`, favicon i imatge Open Graph amb actius aprovats. Cada pàgina declara les alternatives `hreflang` (`es`, `ca`, `en` i `x-default`, que apunta a la URL sense prefix que redirigeix segons l'idioma) i `og:locale` amb les alternatives. Generar `sitemap.xml` (una entrada per pàgina i idioma, amb alternatives) i `robots.txt`; no indexar entorns de prova.
 - Contingut renderitzat per a cercadors, no tot amagat darrere de JavaScript. Evitar SEO inventat, agregats de valoració i dades estructurades amb afirmacions no verificades.
 - Contrast suficient, focus visible, navegació de teclat, labels, textos alternatius, zoom al 200% i opció de moviment reduït. Objectiu WCAG 2.2 AA per als fluxos essencials.
 - Prioritzar formats WebP/AVIF amb fallback quan calgui, variants responsive i originals preservats fora dels actius públics. La foto principal no es carrega en lazy; la resta sí. Evitar vídeos automàtics, llibreries d'animació pesants i incrustacions d'Instagram que perjudiquin càrrega o privacitat.
@@ -98,7 +109,8 @@ No prometre disponibilitat, terminis de lliurament, resultats ni tarifes que enc
 
 - Només fotografies amb drets i permisos necessaris d'ús al web; revisar especialment autorització de les persones retratades i crèdits acordats. No exposar noms, comptes socials, dates o ubicacions de models sense permís.
 - Els textos de `/aviso-legal` i `/privacidad` necessiten dades reals d'Oriol, proveïdor d'allotjament i servei de formulari. Marcar-los com `TODO_PUBLICACION` fins que Oriol els revisi; el llançament públic queda condicionat a completar-los. No col·locar un avís legal genèric inventat.
-- No afegir cookies de seguiment en la V1. Les cookies estrictament necessàries, si apareixen per la plataforma, s'han d'identificar en la informació de privacitat; determinar si cal algun mecanisme de consentiment segons la implementació final.
+- No afegir cookies de seguiment en la V1. Les cookies estrictament necessàries, si apareixen per la plataforma, s'han d'identificar en la informació de privacitat; determinar si cal algun mecanisme de consentiment segons la implementació final. L'única cookie pròpia és `NEXT_LOCALE` (preferència d'idioma, tècnica, només si el visitant tria idioma al selector), documentada a `/privacidad`; com a cookie de preferència sol·licitada per l'usuari no necessita bàner de consentiment.
+- Els textos legals es publiquen en els tres idiomes. La versió en castellà és la de referència; les traduccions s'han de revisar abans del llançament.
 
 ## 4. Sistema de disseny i stack tècnic
 
@@ -123,21 +135,25 @@ Tipografia: **Manrope** per als encapçalaments i **Inter** per al cos, amb font
 - Desplegament a decidir amb Marc. Si hi ha formulari de servidor, seleccionar hosting que admeti aquesta ruta/funció; no activar `output: 'export'` per defecte. Amb exportació estàtica, l'optimització integrada d'imatges de Next pot necessitar un loader compatible i el formulari necessita un servei extern o un altre canal.
 - Incloure `README.md` amb instal·lació, configuració d'entorn, com afegir/reordenar fotos, executar el projecte, publicar-lo, configurar domini/DNS i provar el formulari. No alterar els registres DNS de correu existents en connectar el domini; verificar la configuració abans de canviar-los.
 
-Estructura orientativa: `app/` per rutes i metadades, `components/` per UI, `content/photos.ts`, `content/site.ts`, `public/images/` per versions web aprovades, `lib/` per validació i enviament, `styles/` si cal. Noms de fitxers estables i descriptius.
+- Multiidioma amb les eines natives de Next.js (sense `react-i18next` ni altres llibreries): segment arrel `app/[lang]` amb `generateStaticParams` per a `es`, `ca` i `en`, `proxy.ts` per a la detecció i redirecció, diccionaris tipats per idioma i `app/global-not-found.tsx` per a la 404.
+
+Estructura orientativa: `app/[lang]/` per rutes i metadades, `components/` per UI, `content/copy/` per textos per idioma, `content/photos.ts`, `content/site.ts`, `public/images/` per versions web aprovades, `lib/` per validació i enviament, `styles/` si cal. Noms de fitxers estables i descriptius.
 
 ## 5. Estructura de dades del portafolis
 
 Definir un tipus TypeScript i dades separades de la UI. Els valors següents són només exemple estructural: **no són fotos reals**.
 
 ```ts
+type Localized = { es: string; ca: string; en: string };
+
 export type PortfolioPhoto = {
   id: string;                 // estable i únic
   src: string;                // versió web, ruta local o URL controlada
   lightboxSrc?: string;       // versió més gran, optimitzada
   width: number;              // píxels reals de la versió web
   height: number;
-  alt: string;                // descripció útil en castellà
-  title?: string;
+  alt: Localized;             // descripció útil en cada idioma: { es, ca, en }
+  title?: Localized;
   shotDate?: string;          // ISO YYYY-MM-DD, només si és verificat
   location?: string;          // només si es pot publicar
   credit?: string;            // acordat amb la model / equip
@@ -150,7 +166,7 @@ export type PortfolioPhoto = {
 export const photos: PortfolioPhoto[] = [];
 ```
 
-Validar en desenvolupament que `id` i `order` no es dupliquen, que les rutes existeixen, que `width`/`height` són positius i que totes les fotos publicades tenen `alt` adequat. `featured` controla la selecció de portada. El crèdit es mostra segons l'acord, i l'absència de dades opcionals no deixa etiquetes buides. Les fotos originals es guarden fora de `public/`; exportar derivats per web sense perdre el perfil de color adequat.
+Validar en desenvolupament que `id` i `order` no es dupliquen, que les rutes existeixen, que `width`/`height` són positius i que totes les fotos publicades tenen `alt` adequat en els tres idiomes. `featured` controla la selecció de portada. El crèdit es mostra segons l'acord, i l'absència de dades opcionals no deixa etiquetes buides. Les fotos originals es guarden fora de `public/`; exportar derivats per web sense perdre el perfil de color adequat.
 
 ## Lliurament i definició d'acabat
 

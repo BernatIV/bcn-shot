@@ -12,7 +12,11 @@ const shapes = [portrait, portrait, landscape, portrait, landscape, portrait, po
 export const devPlaceholderPhotos: PortfolioPhoto[] = shapes.map((shape, i) => ({
   id: `placeholder-${i + 1}`,
   ...shape,
-  alt: `Imagen de prueba ${i + 1} (placeholder de desarrollo)`,
+  alt: {
+    es: `Imagen de prueba ${i + 1} (placeholder de desarrollo)`,
+    ca: `Imatge de prova ${i + 1} (placeholder de desenvolupament)`,
+    en: `Test image ${i + 1} (development placeholder)`,
+  },
   featured: i < 6,
   published: true,
   order: i + 1,
