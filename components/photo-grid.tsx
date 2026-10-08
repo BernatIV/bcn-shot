@@ -36,12 +36,11 @@ export function PhotoGrid({ photos, loop }: { photos: PortfolioPhoto[]; loop: bo
                   loading={i < 2 ? "eager" : "lazy"}
                   className={cn(
                     "h-auto w-full transition-opacity duration-300 group-hover:opacity-90",
-                    // Intentional crop only when focalPoint is set; otherwise keep the original aspect ratio.
-                    photo.focalPoint && "aspect-[4/5] object-cover",
+                    // Single column (mobile) keeps the original aspect ratio unless focalPoint is set;
+                    // multi-column layouts always use a uniform 4:5 crop so the grid stays even.
+                    photo.focalPoint ? "aspect-[4/5] object-cover" : "sm:aspect-[4/5] sm:object-cover",
                   )}
-                  style={
-                    photo.focalPoint ? { objectPosition: focalPointToObjectPosition(photo.focalPoint) } : undefined
-                  }
+                  style={{ objectPosition: focalPointToObjectPosition(photo.focalPoint) }}
                 />
               </button>
               {photo.title || photo.credit ? (

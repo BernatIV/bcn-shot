@@ -130,7 +130,7 @@ export type PortfolioPhoto = {
 
 - Portfolio: `published: true`, sorted ascending by `order`. Homepage: `featured` (4–8 photos).
 - Automatic validation in `lib/photos.ts` (in `next dev` and `next build`): unique `id`/`order`, files that exist, `width`/`height` > 0, `alt` present. Warns if the featured count isn't 4–8.
-- `focalPoint` is the only case where the portfolio grid crops (4:5); without it the aspect ratio is preserved.
+- Portfolio grid: from `sm` (2–3 columns) every photo is cropped to a uniform 4:5 (centered, or at `focalPoint` if set) so the grid stays even. In the single-column mobile layout the original aspect ratio is kept unless `focalPoint` is set. The full photo is always shown uncropped in the lightbox.
 - Don't show empty labels or overlay metadata on every photo.
 
 ## Key requirements per feature

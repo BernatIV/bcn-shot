@@ -19,8 +19,8 @@ export function Logo({ className, onNavigate }: { className?: string; onNavigate
           width={logo.width}
           height={logo.height}
           alt=""
-          sizes="170px"
-          className="h-8 w-auto md:h-9"
+          sizes="(min-width: 768px) 198px, 144px"
+          className="h-8 w-auto md:h-11"
           preload
         />
       ) : (

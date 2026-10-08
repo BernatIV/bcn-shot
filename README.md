@@ -66,7 +66,7 @@ See `.env.example`. `.env.local` is never committed.
    }
    ```
 
-   Optional: `title`, `credit`, `shotDate` (`YYYY-MM-DD`, verified), `location` (only if it can be published), `focalPoint` (`{ x, y }` 0–100; enables a 4:5 crop centered on that point in the grid).
+   Optional: `title`, `credit`, `shotDate` (`YYYY-MM-DD`, verified), `location` (only if it can be published), `focalPoint` (`{ x, y }` 0–100; sets the crop position. From 2 columns up every grid thumbnail is cropped to 4:5, centered by default; on single-column mobile the crop only applies when `focalPoint` is set).
 4. `npm run dev` / `npm run build` validate the data: unique ids and `order`, positive dimensions, `alt` present and files that exist. The build fails if there are errors.
 
 While `photos` is empty, `npm run dev` shows gray placeholder photos (`content/dev-placeholder-photos.ts`) so the design can still be worked on. **They never appear in production**: the portfolio page shows the empty state with a CTA.

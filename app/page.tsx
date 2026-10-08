@@ -22,7 +22,7 @@ export default function HomePage() {
       {/* Hero */}
       <section aria-labelledby="hero-title">
         <Container className="grid gap-8 pt-8 md:grid-cols-12 md:gap-10 md:pt-12 lg:gap-16">
-          <div className="flex flex-col justify-end md:col-span-5 md:pb-4">
+          <div className="flex flex-col justify-end md:col-span-5 md:justify-center">
             <h1 id="hero-title" className="text-[2.5rem] font-semibold sm:text-5xl lg:text-6xl xl:text-7xl">
               {copy.home.title}
             </h1>

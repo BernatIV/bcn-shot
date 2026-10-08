@@ -28,6 +28,10 @@
     -webkit-text-size-adjust: 100%;
     /* Evita que la capçalera fixa tapi elements enfocats o àncores (WCAG 2.4.11). */
     scroll-padding-top: 6rem;
+
+    @media (width >= 64rem) {
+      scroll-padding-top: 7rem;
+    }
   }
 
   body {

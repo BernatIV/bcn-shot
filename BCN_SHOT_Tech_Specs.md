@@ -60,7 +60,7 @@ No prometre disponibilitat, terminis de lliurament, resultats ni tarifes que enc
 
 ### 3.3 Graella del portafolis
 
-- Mostrar totes les fotos amb permís de publicació i `published: true`, ordenades per `order` ascendent. Suportar retrats verticals i horitzontals sense deformar-los: conservar relació d'aspecte i retalls intencionals només on es defineixi `focalPoint`.
+- Mostrar totes les fotos amb permís de publicació i `published: true`, ordenades per `order` ascendent. Suportar retrats verticals i horitzontals sense deformar-los. En mòbil (1 columna) es conserva la relació d'aspecte original i només es retalla on es defineixi `focalPoint`. A partir de 2 columnes, totes les miniatures es retallen a una proporció uniforme 4:5 (centrada, o al `focalPoint` si existeix) perquè la graella quedi regular; la foto sencera, sense retall, es veu sempre al lightbox.
 - Una graella editorial responsive: 1 columna en mòbil estret, 2 en tauleta i 3 en escriptori com a punt de partida; ajustar si la composició fotogràfica ho demana.
 - Les imatges sota el primer viewport carreguen amb lazy loading. Fer servir dimensions conegudes per reservar espai i evitar salts. Cada imatge té `alt` descriptiu; si és purament decorativa, alt buit.
 - No mostrar títols, dates o ubicacions en sobreimpressió sobre totes les fotos. Mostrar metadades només quan siguin reals i aportin valor; `location` és opcional i no ha de revelar llocs sensibles.

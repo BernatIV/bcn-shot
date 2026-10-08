@@ -8,7 +8,7 @@ import { siteConfig } from "@/content/site";
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-sm">
-      <Container className="flex h-16 items-center justify-between gap-6 md:h-20">
+      <Container className="flex h-16 items-center justify-between gap-6 md:h-20 lg:h-24">
         <Logo />
         <nav aria-label="Principal" className="hidden md:block">
           <NavLinks className="flex items-center gap-8 text-[0.9375rem]" />
