@@ -108,6 +108,7 @@ const privacyPolicy: LegalPage = {
       heading: "7. Cookies",
       blocks: [
         "This website only uses one technical cookie, **NEXT_LOCALE**, which is stored when you choose a language with the language selector so that the website is shown in that language on your next visits. It lasts one year and is not used for any other purpose. As it is necessary to provide a feature you request, it does not require your consent.",
+        "We use Vercel Analytics to know the approximate number of visits to the website. This tool does not use cookies and does not identify individual users; it generates aggregated, anonymous statistics about site usage.",
         "We do not use analytics or advertising cookies. This information will be updated if analytics, advertising or other technologies that require it are added.",
       ],
     },

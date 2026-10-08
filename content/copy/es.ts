@@ -113,6 +113,7 @@ const privacyPolicy: LegalPage = {
       heading: "7. Cookies",
       blocks: [
         "Esta web solo utiliza una cookie técnica, **NEXT_LOCALE**, que se guarda cuando eliges un idioma con el selector de idioma para mostrarte la web en ese idioma en tus próximas visitas. Dura un año y no se utiliza para ninguna otra finalidad. Al ser necesaria para prestar una función que tú solicitas, no requiere tu consentimiento.",
+        "Utilizamos Vercel Analytics para conocer el número aproximado de visitas a la web. Esta herramienta no utiliza cookies ni identifica a las personas usuarias; genera estadísticas agregadas y anónimas sobre el uso del sitio.",
         "No utilizamos cookies de análisis ni de publicidad. Esta información se actualizará si se incorporan herramientas de análisis, publicidad u otras tecnologías que lo requieran.",
       ],
     },

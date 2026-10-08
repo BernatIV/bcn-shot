@@ -110,6 +110,7 @@ const privacyPolicy: LegalPage = {
       heading: "7. Galetes",
       blocks: [
         "Aquest web només fa servir una galeta tècnica, **NEXT_LOCALE**, que es desa quan tries un idioma amb el selector d'idioma per mostrar-te el web en aquest idioma en les properes visites. Dura un any i no s'utilitza per a cap altra finalitat. Com que és necessària per prestar una funció que sol·licites tu, no requereix el teu consentiment.",
+        "Fem servir Vercel Analytics per conèixer el nombre aproximat de visites al web. Aquesta eina no fa servir galetes ni identifica les persones usuàries; genera estadístiques agregades i anònimes sobre l'ús del lloc.",
         "No fem servir galetes d'anàlisi ni de publicitat. Aquesta informació s'actualitzarà si s'incorporen eines d'anàlisi, publicitat o altres tecnologies que ho requereixin.",
       ],
     },

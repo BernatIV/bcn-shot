@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import { Inter, Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -28,6 +29,7 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
           {children}
         </main>
         <SiteFooter locale={locale} />
+        <Analytics />
       </body>
     </html>
   );
