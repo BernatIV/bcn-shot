@@ -93,7 +93,7 @@ lib/
   photos.ts                selection/ordering + data validation (server-only, uses fs)
   contact-validation.ts, mail.ts, rate-limit.ts, metadata.ts (pageMetadata: canonical + hreflang + og:locale), env.ts, cn.ts, focal-point.ts
 scripts/export-image.mjs   exports originals to WebP (npm run image)
-public/images/             web derivatives ONLY: portfolio/*.webp, site/logo.png, site/oriol-retrato.webp, site/hero-retrato-parque-gafas.webp (cover, not in the grid), placeholders/ (dev only)
+public/images/             web derivatives ONLY: portfolio/*.webp, site/logo.png, site/oriol-retrato.webp, placeholders/ (dev only)
 ```
 
 Provisional decisions (changeable in `content/site.ts`): featured photos on the homepage link to `/portfolio` (`featuredBehavior`), and the lightbox loops at the ends (`lightboxLoop: true`).

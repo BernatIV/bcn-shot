@@ -39,7 +39,7 @@ export const photos: PortfolioPhoto[] = [
     order: 20,
   },
   {
-    id: "retrato-playa-rizos",
+    id: "retrato-playa-rizos", // also the hero/cover photo (siteConfig.heroImage)
     src: "/images/portfolio/retrato-playa-rizos.webp",
     width: 1920,
     height: 2400,

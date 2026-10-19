@@ -10,15 +10,15 @@ export const siteConfig = {
   /** Oriol's personal Instagram account (as opposed to the BCN SHOT project account above). */
   personalInstagramUrl: "https://www.instagram.com/oriolmaneduatis/" as string | null,
   heroImage: {
-    src: "/images/site/hero-retrato-parque-gafas.webp",
-    width: 1366,
-    height: 2048,
+    src: "/images/portfolio/retrato-playa-rizos.webp",
+    width: 1920,
+    height: 2400,
     alt: {
-      es: "Retrato de una mujer con top negro de cuello alto, aros dorados y gafas de sol sobre la cabeza, sonriendo en un parque soleado",
-      ca: "Retrat d'una dona amb top negre de coll alt, arracades daurades i ulleres de sol al cap, somrient en un parc assolellat",
-      en: "Portrait of a woman in a black high-neck top, gold hoop earrings and sunglasses on her head, smiling in a sunny park",
+      es: "Primer plano de una mujer de pelo rizado y oscuro mirando por encima del hombro, con el pelo al viento junto al mar",
+      ca: "Primer pla d'una dona de cabell arrissat i fosc mirant per sobre l'espatlla, amb els cabells al vent a prop del mar",
+      en: "Close-up of a woman with dark curly hair looking over her shoulder, her hair blowing in the wind by the sea",
     },
-    focalPoint: { x: 50, y: 32 },
+    focalPoint: { x: 58, y: 50 },
   } as SiteImage | null,
   aboutPortrait: {
     src: "/images/site/oriol-retrato.webp",
