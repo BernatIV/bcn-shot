@@ -10,7 +10,7 @@ export const siteConfig = {
   /** Oriol's personal Instagram account (as opposed to the BCN SHOT project account above). */
   personalInstagramUrl: "https://www.instagram.com/oriolmaneduatis/" as string | null,
   heroImage: {
-    src: "/images/portfolio/retrato-parque-gafas.webp",
+    src: "/images/site/hero-retrato-parque-gafas.webp",
     width: 1366,
     height: 2048,
     alt: {

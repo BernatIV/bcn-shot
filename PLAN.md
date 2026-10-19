@@ -13,7 +13,7 @@ These block launch, not development (placeholders are used in the meantime).
 - [x] Exact Instagram URL: `https://www.instagram.com/bcnshot/`.
 - [ ] Behavior of the homepage featured photos: open the lightbox or go to `/portfolio`.
 - [ ] Lightbox at the ends: loop or disable.
-- [ ] 8–15 approved photos, featured set and order. *6 photos are in place, all featured, cover photo also in the grid. Pending Oriol's review of the selection, the `alt` text and the model releases.*
+- [ ] 8–15 approved photos, featured set and order. *6 photos are in place (replaced with a new selection), all featured. The cover photo is a separate older shot (public/images/site/hero-retrato-parque-gafas.webp), not in the grid. Pending Oriol's review of the selection, the `alt` text and the model releases.*
 - [x] Final logo and Oriol's portrait.
 - [ ] Final copy (Sobre mí, contact) and legal identity data (Oriol's legal name, NIF, fiscal address).
 
